@@ -1,0 +1,13 @@
+v0.1
+#设置用户名和邮箱
+git config --global user.name "XiongTao"
+git config --global user.email "1760755795@qq.com"
+
+#创建仓库
+git init
+#添加文件到仓库
+git add .
+#提交文件到仓库
+git commit -m "first commit"
+
+jjj
