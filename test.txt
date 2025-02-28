@@ -9,5 +9,3 @@ git init
 git add .
 #提交文件到仓库
 git commit -m "first commit"
-
-jjj
