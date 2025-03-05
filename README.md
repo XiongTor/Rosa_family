@@ -34,7 +34,7 @@
 ---
 ### Scripts
 
-- DATA_DOWNLOAD
-     - get_character_data.R
+- **DATA_DOWNLOAD**
+     - **get_character_data.R**
        This script is used to download the chatacter data from the TRY, BIEN,GIFT. And then to combine them into one file.
 
