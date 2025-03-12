@@ -43,3 +43,10 @@
 
        This script is used to classify the dispersal type of each species based on the dispersal terms provided in the dataset. And to explore the relashionship between dispersal type and distribution range.
 
+    - **get_distribution_data.R**
+
+      This script is used to download the distribution data from the GBIF, idigbio, NSII, CVH database.
+
+    - **clean_distribution_data.R**
+
+      This script is used to clean the distribution data. The script to be cleaned must contain the Species, Longitude, and Latitude fields as column names.
