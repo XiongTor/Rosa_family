@@ -1,6 +1,6 @@
 # !/usr/bin/Rscript
 # Author: Tao Xiong
-# This script is used to download the chatacter data from the TRY, BIEN,GIFT. And then to combine them into one file.
+# This script is used to download the chatacter data from the TRY, BIEN, GIFT. And then to combine them into one file.
 
 # Set working directory
 setwd("E:/Project/Rosacea/Rosaceae_fruit_type/character_data")
