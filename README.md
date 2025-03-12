@@ -39,3 +39,7 @@
      
        This script is used to download the chatacter data from the TRY, BIEN,GIFT. And then to combine them into one file.
 
+     - **get_dispersal_type.R**
+
+       This script is used to classify the dispersal type of each species based on the dispersal terms provided in the dataset. And to explore the relashionship between dispersal type and distribution range.
+

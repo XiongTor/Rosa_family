@@ -1,14 +1,22 @@
+# !/usr/bin/Rscript
+# Author: Tao Xiong
+# This script is used to download the chatacter data from the TRY, BIEN,GIFT. And then to combine them into one file.
+
+# Set working directory
 setwd("E:/Project/Rosacea/Rosaceae_fruit_type/character_data")
+
+# Load required packages for standardized name
 library(rWCVP)
 library(rWCVPdata)
 
-rosa_ga <- read.csv("rosa_genus_subfam_inf.csv")
-#==================================================
+
 ###TRY
 # install.packages('rtry')
-# 加载rtry包
 library(rtry)
 library(dplyr)
+
+#Read the dataset which downloaded from TRY website
+rosa_ga <- read.csv("rosa_genus_subfam_inf.csv")
 
 # 1.1 使用rtry_import函数进行数据导入
 mydata <- rtry_import("39259_14022025080608/39259.txt")
@@ -25,7 +33,7 @@ mydata_explore <- rtry_explore(
 )
 # View(mydata_explore)
 
-# 1.4 现在数据集的信息可能有点冗余，要精简信息可以使用下面的方法
+# 1.3 现在数据集的信息可能有点冗余，要精简信息可以使用下面的方法
 # 使用rtry_remove_col删除某一列
 workdata <- rtry_remove_col(mydata, V29)
 # 使用rtry_select_col函数选择需要的列
@@ -49,18 +57,19 @@ workdata <- rtry_select_col(
   ErrorRisk,
   Comment
 )
+
 # 使用rtry_select_row函数选择所有性状记录和感兴趣的辅助数据
 workdata <- rtry_select_row(workdata, TraitID > 0)
 
-# 1.5 使用rtry_exclude函数排除数据，根据实际研究选择
+# 1.4 使用rtry_exclude函数排除数据，根据实际研究选择
 
 # 根据错误风险排除离群值 （ErrorRisk），这里排除ErrorRisk大于等于3的值
 workdata <- rtry_exclude(workdata, ErrorRisk >= 3, baseOn = ObsDataID)
 
-# 1.6 使用rtry_remove_dup函数根据重复标识符 （OrigObsDataID） 删除重复项
+# 1.5 使用rtry_remove_dup函数根据重复标识符 （OrigObsDataID） 删除重复项
 workdata <- rtry_remove_dup(workdata)
 
-# 1.7 使用rtry_trans_wider函数转换为宽表（长表格式是出于数据管理目的，宽表格式才是我们平时处理数据比较习惯的格式）
+# 1.6 使用rtry_trans_wider函数转换为宽表（长表格式是出于数据管理目的，宽表格式才是我们平时处理数据比较习惯的格式）
 # 选择包含完整TraitID和StdValue的行
 num_traits <- rtry_select_row(workdata, complete.cases(TraitID))
 # 从筛选后的数据中选择指定的列
@@ -226,7 +235,11 @@ colnames(num_traits_genus) <- gsub(" ", "_", colnames(num_traits_genus))
 rtry_export(num_traits_genus, "TRY_rosa_traits.csv")
 
 
-##==============================================================================
+
+
+
+
+
 #BIEN
 # install.packages('BIEN')
 library(RPostgreSQL)
@@ -447,22 +460,21 @@ final_data_bien_df <- final_data_bien_df %>%
   select(-taxon_name) # 删除临时列
 
 
-#再次去除哪些整列都为NA的列
+#再次去除那些整列都为NA的列
 final_data_bien_df <- final_data_bien_df %>%
   select(where(~ any(!is.na(.))))
 
 #更新替换属名
-final_data_bien_df$scrubbed_genus.x <- sapply(
-  strsplit(final_data_bien_df$scrubbed_species_binomial, " "),
-  '[',
-  1
-)
-
+final_data_bien_df$scrubbed_genus.x <- sapply(strsplit(final_data_bien_df$scrubbed_species_binomial, " "),'[',1)
 
 #读出数据
 utils::write.csv(final_data_bien_df, "BIEN_rosaceae_character_data.csv")
 
-#=================================================================================
+
+
+
+
+
 #GIFT
 # 安装并加载GIFT包
 # install.packages("GIFT")
@@ -601,9 +613,15 @@ GIFT_rosa_data <- GIFT_rosa_data %>%
 write.csv(GIFT_rosa_data, "GIFT_rosa_character_data.csv")
 
 
-#===============================================================================
 
-#+==============================================================================
+
+
+
+
+
+
+
+
 #合并TRY，BIEN，GIFT和之前自测收集的属级，种级别数据集合
 
 #加载需要的分析包
