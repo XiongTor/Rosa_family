@@ -1,5 +1,5 @@
 # !/usr/bin/Rscript
-# Author: TaoXiong
+# Author: Tao Xiong
 # Date: 2025-02-26
 # 本脚本用于清理分布数据,但仍有部分要求，要求需要进行清理的数据集必须包含Species、Longitude、Latitude三个字段作为列名
 
