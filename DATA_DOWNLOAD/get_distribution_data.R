@@ -1,3 +1,8 @@
+# !/usr/bin/Rscript
+# Author: Tao Xiong
+# Date: 2025.03.14
+# Description: This script is used to get the distribution data of Rosaceae from GBIF, idigbio, CVH, NSII.
+
 # 地理分布数据下载
 library(dplyr)
 library(sf)
@@ -79,9 +84,7 @@ for (i in file_url$Species) {
 
 
 
-#===============================================================================
-
-
+###################################################### idigbio #######################################################
 ## 下载idigbio数据
 library("ridigbio")
 species_list <- read.csv("rosa_species_subfam_inf.csv", header=TRUE, sep=";")
@@ -119,3 +122,25 @@ data_problematic <- data[which(data_problem$.summary== "FALSE"),]
 distribution_all_clean <- data[which(data_problem$.summary== "TRUE"),]
 
 write.csv(final_idig,file="idigbio_rosaceae_2025.2.23.csv")
+
+
+#################################################CVH NSII###############################################
+#下载CVH NSII数据
+mkdir result_nsii
+while read -r line ;do
+  echo y|python RetrieveHerbarChina.py -w nsii -g $line -o result -d 0
+  echo y|python GeoTransfer.py -f result/${line}_nsii_list_raw.csv -d 0
+  cp result/${line}_nsii.csv result_nsii
+done<nsii_list.txt
+
+mkdir result_cvh
+while read -r line ;do
+  python RetrieveHerbarChina.py -w cvh -g $line -o result -d 0 
+  python RetrieveHerbarChina.py -w cvh -f result/${line}_cvh_list.txt -d 0
+  cp result/${line}_cvh.csv result_cvh
+done<cvh_list.txt
+
+echo "Species,CN_Location,Count,Longitude,Latitude" >> all_cvh_distribution_data.csv
+for name in `ls result_cvh/*_cvh.csv';do 
+  sed 1d $name >> all_cvh_distribution_data.csv
+done

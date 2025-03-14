@@ -55,4 +55,6 @@
 
       This script is used to convert the longitude to the corresponding address using the Baidu API.
 
-    
+    - **get_wcvp_native_distribution.R**
+
+      This script is used to combine different datasets to be one dataset. And then to change the species name to the accpeted name. Then to get the native distribution by WCVP.
