@@ -36,7 +36,7 @@
 >.exe means the script can be run directly in the command line.
 
 - ### **DATA_DOWNLOAD**
-  #### ==**character data download**==
+  #### **character data download**
      - **get_character_data.R**  
      
        This script is used to download the chatacter data from the TRY, BIEN,GIFT. And then to combine them into one file.
@@ -45,7 +45,7 @@
 
        This script is used to classify the dispersal type of each species based on the dispersal terms provided in the dataset. And to explore the relashionship between dispersal type and distribution range.
 
-  #### **distribution data download and sample plot**
+  #### **distribution data download and simple plot**
     - **get_distribution_data.R**
 
       This script is used to download the distribution data from the GBIF, idigbio, NSII, CVH database.
