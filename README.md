@@ -58,3 +58,11 @@
     - **get_wcvp_native_distribution.R**
 
       This script is used to combine different datasets to be one dataset. And then to change the species name to the accpeted name. Then to get the native distribution by WCVP.
+
+    - **map_rosa_distribution.R**
+
+      This script is used to map the Rosa subfamilies coordinate information to the world map.
+
+    - **count_continent_num_by_coordinate.R**
+
+      This script is used to count the number of continents by the coordinate information.
