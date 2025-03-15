@@ -50,6 +50,10 @@
     - **clean_distribution_data.R**
 
       This script is used to clean the distribution data. The script to be cleaned must contain the **Species**, **Longitude**, and **Latitude** fields as column names.
+      ```{eval=F,echo= F,bash}
+      # Example: 
+      Rscript clean_distribution_data.R -i data/distribution_data.csv
+      ```
 
     - **change_longtitude_to_address_baidu.py**
 
