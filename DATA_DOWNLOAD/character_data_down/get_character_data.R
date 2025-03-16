@@ -17,7 +17,7 @@ library(dplyr)
 
 #Read the dataset which downloaded from TRY website
 rosa_ga <- read.csv("rosa_genus_subfam_inf.csv")
-
+ 
 # 1.1 使用rtry_import函数进行数据导入
 mydata <- rtry_import("39259_14022025080608/39259.txt")
 
