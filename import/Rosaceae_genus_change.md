@@ -88,6 +88,7 @@ POWO中接受此属为接受名，接受种仅有一种
 POWO记载该属为*Agrimonia*(龙牙草属)异名
 
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Aremonia_POWO.jpg width="60%">
+
 - [原始文献记载](https://core.ac.uk/download/pdf/215231307.pdf)
 
 根据原始文献的研究显示，在核基因和质体基因的多棵系统发育树中，均表明该属应该归到*Agrimonia*中
@@ -97,6 +98,7 @@ POWO记载该属为*Agrimonia*(龙牙草属)异名
 - [多识记载](https://duocet.ibiodiversity.net/index.php?title=%E8%94%B7%E8%96%87%E7%A7%91#%E5%88%86%E7%B1%BB)
 
 根据多识的记载，该属为一独立的接受属
+
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Aremonia_ds.jpg width="60%">
 
 ### Brachycaulos（寒垫草属）
@@ -137,7 +139,8 @@ POWO记载该属为*Agrimonia*(龙牙草属)异名
 
 #### 文献查询 
 
-通过查询这5属涉及的[原始文献(Keith Rushforsh 2018)](https://www.biodiversitylibrary.org/item/334239#page/230/mode/1up)可以发现：
+通过查询这5属涉及的[原始文献(Keith Rushforsh 2018)](https://www.biodiversitylibrary.org/item/334239#page/230/mode/1up)可以发现:
+
 水榆属的分类问题可以追溯到白花楸树（whitebeam）的分类问题上
 
 - *Aria*, *Micromeles*作为独立的属被接受
@@ -170,17 +173,24 @@ Keith Rushforsh在[原始文献]()中，结合前人对*Alniaria*, *Dunnaria*, *
 
 
   1. 果明显长于宽，很少近圆形，心皮/花柱2(-3)，胚珠共侧-------------*Alniaria*
+
   1. 果实圆形至扁球形，不明显长于宽，或当果/花为伞形花序或伞形总状花序时，很少长于宽。花柱/心皮 2-5，胚珠共侧或重叠
+
   2. 花萼脱落，通常在果实成熟之前就已脱落，留下一个圆形凹陷
+
     3. 叶片下面有银色毛，叶脉上有红褐色毛、花/果为伞房花序---------*Dunnaria*
+
     3. 叶背面无毛或有疏毛，花/果为伞形花序、伞形总状花序或凸形或圆球形圆锥花序
+
       4. 胚珠重叠-----------*Thomsonaria*
+
       4. 胚珠共侧-----------*Micromeles*
+
   2. 成熟果实的花萼宿存
+
     5. 花柱3或4，幼叶无毛或有疏毛，不被绒毛，果实褐色、直径12-20毫米，被大量连续的皮孔覆盖------------*Wilsonaria*
+
     5. 花柱2-4(-5)，叶白色到银色，果绿色到黄色，通常粉红色微染，7-15(-30)毫米，皮孔间距大或无----------*Griffitharia*
-
-
 
 基于上述认识，从形态学的角度是可以将5属区分开来。然而目前关于上述5属的分子研究甚少，POWO将以上5属归并为*Micromeles*的依据为一篇质体基因组的系统发育学文章，**Plastome phylogenomics of Micromeles (Rosaceae). Phytotaxa 589: 179-190.**
 
