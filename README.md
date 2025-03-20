@@ -75,4 +75,6 @@
 
       This script is used to count the number of continents by the coordinate information.
 
-    
+---
+## Scripts
+>.exe means the script can be run directly in the command line.
