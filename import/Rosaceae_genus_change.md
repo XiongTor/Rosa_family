@@ -37,6 +37,7 @@
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Oncostylus_paper.png width="60%">
 
 -   [接受名文献记载](https://www.mdpi.com/1424-2818/15/4/479)
+
 根据文献描述，接受*Oncostylus*属的单系性，同时根据系统发育树结果，也可发现*Oncostylus*为一单系枝
 建树所用数据集：ITS + *trnL-trnF* dataset
 
@@ -61,11 +62,13 @@ POWO中接受此属为接受名，接受种仅有一种
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Taihangia_ds.png width="60%">  
 
 -   [原始文献记载](https://www.jse.ac.cn/EN/Y1980/V18/I4/469)
+
 根据原始文献记载，*Taihangia*为接受属名，与*Geum*(路边青属)具有一定的相似性，但是在花结构上具有一定的差异
 
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Taihangia_paper.png width="60%">
 
 -   [接受名文献记载](https://www.mdpi.com/1424-2818/15/4/479)
+
 根据文献记载，接受*Taihangia*为一独立的接受属，文献中系统发育关系也证明其并不嵌套于其它属中
 建树所用数据集：ITS + *trnL-trnF* dataset
 
@@ -85,11 +88,13 @@ POWO中接受此属为接受名，接受种仅有一种
 POWO记载该属为*Agrimonia*(龙牙草属)异名
 
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Aremonia_POWO.jpg width="60%">
--   [原始文献记载](https://core.ac.uk/download/pdf/215231307.pdf)
+- [原始文献记载](https://core.ac.uk/download/pdf/215231307.pdf)
+
 根据原始文献的研究显示，在核基因和质体基因的多棵系统发育树中，均表明该属应该归到*Agrimonia*中
 
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Aremonia_paper.jpg width="60%">
--   [多识记载](https://duocet.ibiodiversity.net/index.php?title=%E8%94%B7%E8%96%87%E7%A7%91#%E5%88%86%E7%B1%BB)
+
+- [多识记载](https://duocet.ibiodiversity.net/index.php?title=%E8%94%B7%E8%96%87%E7%A7%91#%E5%88%86%E7%B1%BB)
 
 根据多识的记载，该属为一独立的接受属
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Aremonia_ds.jpg width="60%">
@@ -97,9 +102,11 @@ POWO记载该属为*Agrimonia*(龙牙草属)异名
 ### Brachycaulos（寒垫草属）
 
 -   [POWO记载](https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:893032-1)
+
 根据POWO记载，该属现被划分为*Saxifraga*（虎耳草属，虎尾草科）异名，变动较大
 
 -   [多识记载](https://duocet.ibiodiversity.net/index.php?title=%E8%94%B7%E8%96%87%E7%A7%91#%E5%88%86%E7%B1%BB)
+
 根据多识记载，该属为一存疑属，标本资料仅有来自于印度的一份，极大可能于虎耳草属混淆。
 
  <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Brachycaulos_ds.jpg width="80%">
@@ -107,7 +114,7 @@ POWO记载该属为*Agrimonia*(龙牙草属)异名
 
 
 ### 水榆属相关 
-<img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Micromeles_image.jpg alt="Micromeles alnifolia"width="60%">
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Micromeles_image.jpg alt="Micromeles alnifolia" width="60%">
 
 - Alniaria（水榆属-狭义）
 
