@@ -192,7 +192,9 @@ Keith Rushforsh在[原始文献]()中，结合前人对*Alniaria*, *Dunnaria*, *
 
     5. 花柱2-4(-5)，叶白色到银色，果绿色到黄色，通常粉红色微染，7-15(-30)毫米，皮孔间距大或无----------*Griffitharia*
 
-基于上述认识，从形态学的角度是可以将5属区分开来。然而目前关于上述5属的分子研究甚少，POWO将以上5属归并为*Micromeles*的依据为一篇质体基因组的系统发育学文章，**Plastome phylogenomics of Micromeles (Rosaceae). Phytotaxa 589: 179-190.**
+基于上述认识，从形态学的角度是可以将5属区分开来。然而目前关于上述5属的分子研究甚少，POWO将以上5属归并为*Micromeles*的依据为一篇质体基因组的系统发育学文章，**Plastome phylogenomics of Micromeles (Rosaceae). Phytotaxa 589: 179-190.**  
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/Micromeles_6.5.jpg width="80%">
+
 
 
 #### 多识与WFO
