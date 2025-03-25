@@ -204,3 +204,12 @@ Keith Rushforsh在[原始文献]()中，结合前人对*Alniaria*, *Dunnaria*, *
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/imag/rosaceae_genus_change/micromele_7.jpg width="80%">
 
 同时根据NCBI检索，目前*Griffitharia*，*Thomsonaria*，*Alniaria*均具有分子数据可利用。
+
+
+### 结论
+
+综上所述，我们可以得到以下结论：
+1. *Oncostylus*和*Taihangia*属作为独立的属可以被接受。
+2. *Alniaria*, *Dunnaria*, *Griffitharia*, *Thomsonaria*, *Wilsonaria* 5属，根据前人Keith Rushforsh的结论，是可以作为独立的属被接受。虽然目前有一篇质体的系统发育文章并不支持他们作为独立的属，但考虑到缺乏核基因组的证据，仍然是可以保留下来的。
+3. *Aremonia*被认定为*Agrimontia*的异名。
+4. *Brachycaulos*被认定为*Saxifraga*的异名，且并不属于蔷薇科。
