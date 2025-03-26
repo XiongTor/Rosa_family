@@ -75,6 +75,14 @@
 
       This script is used to count the number of continents by the coordinate information.
 
+
+  #### **hybpiper_analy**
+  
+    - **trimmomatic.sh**
+      This script is used to run the trimmomatic to remove the adapters and low quality reads.
+
+    - **hybpiper_step.sh**
+      This script is used to run the hybpiper step by step.
 ---
 ## Report
 >this is used to record some note

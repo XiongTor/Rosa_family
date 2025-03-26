@@ -213,3 +213,4 @@ Keith Rushforsh在[原始文献]()中，结合前人对*Alniaria*, *Dunnaria*, *
 2. *Alniaria*, *Dunnaria*, *Griffitharia*, *Thomsonaria*, *Wilsonaria* 5属，根据前人Keith Rushforsh的结论，是可以作为独立的属被接受。虽然目前有一篇质体的系统发育文章并不支持他们作为独立的属，但考虑到缺乏核基因组的证据，仍然是可以保留下来的。
 3. *Aremonia*被认定为*Agrimontia*的异名。
 4. *Brachycaulos*被认定为*Saxifraga*的异名，且并不属于蔷薇科。
+
