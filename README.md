@@ -45,6 +45,8 @@
 
        This script is used to classify the dispersal type of each species based on the dispersal terms provided in the dataset. And to explore the relashionship between dispersal type and distribution range.
 
+
+
   #### **distribution data download and simple plot**
     - **get_distribution_data.R**
 
@@ -76,6 +78,8 @@
       This script is used to count the number of continents by the coordinate information.
 
 
+
+
   #### **hybpiper_analy**
   
     - **trimmomatic.sh**
@@ -83,6 +87,22 @@
 
     - **hybpiper_step.sh**
       This script is used to run the hybpiper step by step.
+
+
+
+  #### **tools**
+  >. some tools used in the project.
+
+    - **wcvp.R**
+      This script is used to do the name standardization by WCVP
+      ```{eval=F,echo= F,bash}
+      # Example: 
+      Rscript wcvp.R name.csv
+      ```
+      the fuzzy matched name will be saved in the file **fuzzy_matches.csv**
+      the final accepted name will be saved in the file **Final_accepted_name.csv**
+      the other be filtered name will be saved in the file **No_matched_name.csv**
+
 ---
 ## Report
 >this is used to record some note
