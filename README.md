@@ -93,7 +93,7 @@
   #### **tools**
   >. some tools used in the project.
 
-    - **wcvp.R**
+    - **wcvp.R(.exe)**
       This script is used to do the name standardization by WCVP
       ```{eval=F,echo= F,bash}
       # Example: 
