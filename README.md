@@ -122,9 +122,9 @@
       # Example: 
       Rscript wcvp.R name.csv
       ```
-      the fuzzy matched name will be saved in the file **fuzzy_matches.csv**
-      the final accepted name will be saved in the file **Final_accepted_name.csv**
-      the other be filtered name will be saved in the file **No_matched_name.csv**
+      the fuzzy matched name will be saved in the file **fuzzy_matches.csv**  
+      the final accepted name will be saved in the file **Final_accepted_name.csv**  
+      the other be filtered name will be saved in the file **No_matched_name.csv**  
 
 
 
