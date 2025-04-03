@@ -5,7 +5,7 @@
 #分步进行hybpiper运行
 
 # hybpiper assemble
-hybpiper assemble -t_dna Reference_353.fasta -r trimmomatic/*.fq.gz --prefix rosa --bwa --hybpiper_output ./hybpiper
+hybpiper assemble -t_dna hybpiper/Reference_353.fasta -r ./final_fastq/trimmomatic/SRR26662633*.fq.gz --prefix Neillia --bwa --hybpiper_output ./Neillia_chloro
 # The parent output directory if supplied using the parameter --hybpiper_output or -o.
 #-t_dna目标文件是核苷酸，-t_aa是氨基酸
 #-t_aa默认是

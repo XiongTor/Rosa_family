@@ -80,6 +80,9 @@
 
 
 
+
+- ### **Analysis**
+
   #### **hybpiper_analy**
   
     - **trimmomatic.sh**
@@ -89,8 +92,21 @@
       This script is used to run the hybpiper step by step.
 
 
+  #### **buildtree**
 
-  #### **tools**
+    - **make_tree.sh**
+      This script record some different methods to build the phylogenetic tree.
+
+    - **Pyphlawd_analysis.sh**
+      This script is used to do the Pyphlawd analysis.
+
+    - **rosa_make_tree_old_2022.sh** 
+      This script is used to build the phylogenetic tree by the old method in my masters study.
+
+
+
+
+  ### **tools**
   >. some tools used in the project.
 
     - **wcvp.R(.exe)**
@@ -103,6 +119,14 @@
       the final accepted name will be saved in the file **Final_accepted_name.csv**
       the other be filtered name will be saved in the file **No_matched_name.csv**
 
+
+
+
+  ### **Others**
+  >. collect other guys workflow and scripts.
+
+    - **Zijia_build_tree.sh**
+      This script is used to build the phylogenetic tree by Zijia Lu in 2025.03
 ---
 ## Report
 >this is used to record some note

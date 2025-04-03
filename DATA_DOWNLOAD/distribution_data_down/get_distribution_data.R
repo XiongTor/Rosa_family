@@ -24,7 +24,7 @@ library(readxl)
 
 
 
-## 下载gbif数据（提前准备物种名录）
+## 下载gbif数据（提前准备物种名录）------方法一
 file_url <- read.csv("rosa_species_subfam_inf.csv", header=TRUE, sep=";")
 
 #设置请求的服务器IP，即VPN挂的地址
@@ -81,6 +81,41 @@ for (i in file_url$Species) {
     message(paste("Error processing", i, ":", conditionMessage(e)))
   })
 }
+
+
+
+
+## 下载gbif数据（提前准备物种名录）------方法二
+library(dplyr)
+library(purrr)
+library(readr)  
+library(magrittr) 
+library(rgbif) 
+library(taxize)
+
+user <- "xueqin" 
+pwd <- "961121wxq"   
+email <- "335015647@qq.com" 
+file_url <- read.csv("./gbif/all/result_delete_genus_accepted.csv", header=TRUE, sep=";")
+gbif_taxon_keys <- file_url[,1] %>%  # the first column is species names
+taxize::get_gbifid_(method="backbone") %>%  # match names to the GBIF backbone to get taxonkeys
+imap(~ .x %>% mutate(original_sciname = .y)) %>%  # add original name back into data.frame
+bind_rows() %T>% # combine all data.frames into one
+readr::write_tsv(path = "all_matches.tsv") %>% # save as side effect for you to inspect if you want
+filter(matchtype == "EXACT" & status == "ACCEPTED") %>% # get only accepted and matched names
+filter(kingdom == "Plantae") %>% # remove anything that might have matched to a non-plant
+pull(usagekey) 
+occ_download(
+pred_in("taxonKey", gbif_taxon_keys),
+# pred_in("basisOfRecord", c('PRESERVED_SPECIMEN','HUMAN_OBSERVATION','OBSERVATION','MACHINE_OBSERVATION')),
+# pred_gt("elevation", 5000),
+# pred("country", "US"),
+pred("hasCoordinate", TRUE),
+# pred("hasGeospatialIssue", FALSE),
+# pred_gte("year", 1990),
+format = "SIMPLE_CSV",
+user=user,pwd=pwd,email=email
+)
 
 
 
