@@ -86,30 +86,37 @@
   #### **hybpiper_analy**
   
     - **trimmomatic.sh**
+
       This script is used to run the trimmomatic to remove the adapters and low quality reads.
 
     - **hybpiper_step.sh**
+
       This script is used to run the hybpiper step by step.
 
 
   #### **buildtree**
 
     - **make_tree.sh**
+
       This script record some different methods to build the phylogenetic tree.
 
     - **Pyphlawd_analysis.sh**
+
       This script is used to do the Pyphlawd analysis.
 
     - **rosa_make_tree_old_2022.sh** 
+
       This script is used to build the phylogenetic tree by the old method in my masters study.
 
 
 
 
   ### **tools**
+
   >. some tools used in the project.
 
     - **wcvp.R(.exe)**
+
       This script is used to do the name standardization by WCVP
       ```{eval=F,echo= F,bash}
       # Example: 
@@ -123,9 +130,11 @@
 
 
   ### **Others**
+
   >. collect other guys workflow and scripts.
 
     - **Zijia_build_tree.sh**
+
       This script is used to build the phylogenetic tree by Zijia Lu in 2025.03
 ---
 ## Report
