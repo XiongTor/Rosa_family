@@ -13,7 +13,7 @@ mkdir comb_result_genes
 
 #去掉hybpiper文件中的换行符
 for name in $hybpiper/*.FNA;do
-    tt=$(basename $name|cut -f1 -d'_')
+    tt=$(basename $name|cut -f1 -d'.')
     awk '/^>/ {printf("\n%s\n",$0);next;} { printf("%s",$0);} END {printf("\n");}' $name |sed '1d'> comb_result_genes/${tt}.fasta
  done
 

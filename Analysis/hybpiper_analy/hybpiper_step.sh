@@ -18,7 +18,7 @@ done <run_hybpiper_list.txt
 
 # Summary statistics
 ls | grep "_" >namelist.txt
-hybpiper stats -t_dna ../Reference_353.fasta gene namelist.txt
+hybpiper stats -t_dna ./Reference_353.fasta gene namelist_rm_crataegus.txt --seq_lengths_filename seq_lengths_rm_crataegus.tsv
 #默认输出表格*.tsv（如seq_lengths.tsv），使用--seq_lengths_filename可以进行修改。注：即使参考序列是蛋白文件（amino-acid sequences），该部分还是计算核苷酸（nucleotides）的长度
 
 # Visualizing results
@@ -26,5 +26,24 @@ hybpiper recovery_heatmap seq_lengths.tsv
 #sample_text_size和gene_text_size可以调整文中X、Y轴的文字大小
 
 # hybpiper retrieve_sequences
-hybpiper retrieve_sequences -t_dna ../Reference_353.fasta --sample_names namelist.txt --fasta_dir ../hybpiper_result dna
+hybpiper retrieve_sequences -t_dna ./Reference_353.fasta --sample_names namelist_rm_crataegus.txt --fasta_dir ../hybpiper_result_rm_crataegus dna
 #按基因名合并所有物种序列，输出每个基因未比对的序列（unaligned fasta files(one per gene)），使用--fasta_dir输出到指定的文件夹
+
+
+
+
+############################### hybsut ##################################################
+# used hybsut to run the paragone test
+bash /data/xiongtao/software/HybSuite-master/bin/HybSuite.sh \
+--run_to_stage3 \
+-skip_stage 01 \
+-i /home/xiongtao/data/project/Rosaceae/tree/hybpiper_assemble \
+-other_seqs /data/xiongtao/project/Rosaceae/tree/paftol_data \
+-conda1 test \
+-conda2 paragone \
+-o /data/xiongtao/project/Rosaceae/tree/result_paragone \
+-t /data/xiongtao/project/Rosaceae/tree/hybpiper_assemble/Reference_353.fasta \
+-eas_dir /home/xiongtao/data/project/Rosaceae/tree/hybpiper_assemble \
+-nt 10 -process 5 \
+-min_length 0 \
+-OI 124567
