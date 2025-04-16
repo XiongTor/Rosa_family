@@ -126,8 +126,13 @@
       the final accepted name will be saved in the file **Final_accepted_name.csv**  
       the other be filtered name will be saved in the file **No_matched_name.csv**  
 
+    - **mono.R(.exe)**
 
-
+      This script is used to check the monophyly of each clade
+      ```{eval=F,echo= F,bash}
+      # Example: 
+      Rscript mono.R test.tree
+      ```
 
   ### **Others**
 
