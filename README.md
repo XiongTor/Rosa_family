@@ -139,8 +139,18 @@
       This script is used to check the monophyly of each clade by R package MonoPhy
       ```{eval=F,echo= F,bash}
       # Example: 
-      Rscript monophy.R test.tree
+      Rscript monophy.R test.tre
       ```
+
+    - **make_treelength_gt_0.R(.exe)**
+
+      This script is used to make the tree length greater than 0
+      ```{eval=F,echo= F,bash}
+      # Example: 
+      Rscript make_treelength_gt_0.R test.tre
+      ```
+
+      The result tree name is **tree_without_zero_length.tre**
 
   ### **Others**
 
