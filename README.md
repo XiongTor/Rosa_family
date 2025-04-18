@@ -134,6 +134,14 @@
       Rscript mono.R test.tree
       ```
 
+    - **monophy.R(.exe)**
+
+      This script is used to check the monophyly of each clade by R package MonoPhy
+      ```{eval=F,echo= F,bash}
+      # Example: 
+      Rscript monophy.R test.tree
+      ```
+
   ### **Others**
 
   >. collect other guys workflow and scripts.
