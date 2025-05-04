@@ -24,13 +24,15 @@ tip$subf <- sapply(strsplit(as.character(tip$tiplables), "_"),`[`,1)
 #get the subfamily name list
 subfamily <- sapply(strsplit(as.character(tip$tiplables), "_"),`[`,1) %>% unique()
 
+
 df <- data.frame()
+
 
 for(name in subfamily){
   tips <- tip$tiplables[tip$subf == name]
   mono <- is.monophyletic(tree,tips,reroot = !is.rooted(tree))
   if (mono == FALSE && length(tips)>2 ){
-    print(paste0(name,"is a not a monophyletic clade"))
+    print(paste0(name," is a not a monophyletic clade"))
     pdf(paste("./mono/",name,".pdf",sep = ""),height = 100,width = 100)
     is.monophyletic(tree, tips,reroot = !is.rooted(tree),plot=T,cex=10,lwd=50)
     dev.off()

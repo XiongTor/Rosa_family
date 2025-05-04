@@ -3,12 +3,10 @@
 # Date: 2025.04.18
 # This script is used to make the tree length greater than 0
 
-file<-commandArgs(TRUE)
+tree<-commandArgs(TRUE)
 
 library(ape)
 library(dispRity)
-
-tree<-read.tree(file)
 
 ## Removing zero branch lengths
 tree_good <- dispRity::remove.zero.brlen(tree)
