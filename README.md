@@ -161,6 +161,10 @@
     - **Zijia_build_tree.sh**
 
       This script is used to build the phylogenetic tree by Zijia Lu in 2025.03
+
+    - **poaceae_distributon_wcvp_plot.R**  
+	
+	  This script is used to plot the distribution of Lolium perenne and Lolium allgenus.
 ---
 ## Report
 >this is used to record some note
