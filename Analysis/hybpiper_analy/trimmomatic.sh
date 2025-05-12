@@ -28,7 +28,7 @@ input_dir=/home/xiongtao/data/project/Rosaceae/seqdata/final_fastq/single
 output_dir=/home/xiongtao/data/project/Rosaceae/seqdata/final_fastq/trimmomatic
 #specify the parameter and pathway of the Trimmomatic
 trimmomatic_path=/home/xueqin/data/software/Trimmomatic-0.38/trimmomatic-0.38.jar
-trimmomatic_params="ILLUMINACLIP:/home/xueqin/data/software/Trimmomatic-0.38/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"
+trimmomatic_params="ILLUMINACLIP:/home/xueqin/data/software/Trimmomatic-0.38/adapters/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"
 for sample in ${input_dir}/*.fastq; do
   sample_name=$(basename ${sample} .fastq)
   reads=${sample}

@@ -13,8 +13,8 @@ hybpiper assemble -t_dna hybpiper/Reference_353.fasta -r ./final_fastq/trimmomat
 
 # loop
 while read -r name; do
-  hybpiper assemble -t_dna Reference_353.fasta -r ./$name*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper
-done <run_hybpiper_list.txt
+  hybpiper assemble -t_dna rosaceae_chloroplast_reference.fasta -r ../data_collect/seqdata/trimmomatic/$name*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper
+done <name_runhybpiper.txt
 
 # Summary statistics
 ls | grep "_" >namelist.txt
