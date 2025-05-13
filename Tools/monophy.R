@@ -11,26 +11,25 @@ if(!dir.exists("monophy")){
   dir.create("monophy")
 }
 
+print(file[1])
 tree<-read.tree(file[1])
 
-class<-read.table(file[2],header = F)
+# print(file[2])
+# class<-read.csv(file[2],header = F)
 
-phy <- read.tree(file=tree)
 #AssessMonophyly 
-solution0 <- AssessMonophyly(tree,class)
+solution0 <- AssessMonophyly(tree)
 
 #Summary
 mono_clade_number<-GetSummaryMonophyly(solution0)
 
 #Result
 outlier<-GetOutlierTips(solution0, taxa = NULL, taxlevels='ALL')
+df<-stack(outlier$Genera)
 
-#Intruders
-intruders<-GetIntruderTips(solution0)
-
-pdf(paste("./monophy/",name,".pdf",sep = ""),height = 10000,width = 100)
-  PlotMonophyly(solution0, tree, plot.type='monophyly', ladderize=TRUE, cex=0.5)
+pdf("./monophy/result_plot.pdf",height = 200,width = 200)
+  PlotMonophyly(solution0, tree,type="fan",plot.type='monophyly',label.offset=10,edge.width=3,ladderize=TRUE, cex=2)
 dev.off()
 
 write.csv(mono_clade_number,"monophy/mono_clade_number.csv",quote = F,row.names = FALSE)
-write.csv(outlier,"monophy/outlier.csv",quote = F,row.names = FALSE)
+write.csv(df,"monophy/outlier.csv",quote = F,row.names = FALSE)
