@@ -252,7 +252,8 @@ par(new=TRUE, mgp = c(0, 0.6, 0))
 plotRateThroughTime(rtt, ratetype = "extinction",axis = F,ylim=c(0,0.4), useMedian=TRUE, lwd=2, avgCol="blue", intervalCol="blue",smooth=TRUE, cex.lab = 1, xline=2, yline=2.8, cex.axis=1)
 par(new=TRUE, mgp = c(0, 0.6, 0))
 mtext(expression("Diversification rate (Myr"^"-1"*")"), line=2.5, side=2, cex=1.3)    
-mtext("Time before present (Myr)", line=2.5, side=1, cex=1.3) 
+mtext("Tim
+e before present (Myr)", line=2.5, side=1, cex=1.3) 
 legend(22,0.4,bty="n", legend = c("Speciation rate", "Netdiv rate","Extinction rate","Temperature","CO2"), col = c("deeppink", "black","blue","skyblue","orange"),lty = c(1,1,1,2,2),lwd = 2)
 dev.off()
 

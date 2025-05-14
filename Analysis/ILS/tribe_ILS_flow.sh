@@ -24,5 +24,7 @@
 
 #build iqtree
 for name in trimal/*.tri.fasta; do
-  iqtree -s $name -m MFP -B 1000 --bnni -T 10
+  iqtree -s $name -m MFP -B 1000 --bnni -T 15
 done
+
+#ASTRAL tree
