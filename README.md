@@ -118,6 +118,10 @@
     - **MSCquartets.R**  
       This script is used to conduct the MSCquartets analysis.
 
+    - **PhyloNetworks.R**  
+
+	  This script is used to conduct the PhyloNetworks analysis.
+
     - **tribe_ILS_flow.R**
 	  This script is used to run the tribe ILS flow.
 
@@ -161,6 +165,10 @@
       ```
 
       The result tree name is **tree_without_zero_length.tre**
+
+    - **make_hybpiper_reference.R**  
+
+	  This script is used to make the reference sequence for hybpiper.
 
   ### **Others**
 

@@ -28,3 +28,7 @@ for name in trimal/*.tri.fasta; do
 done
 
 #ASTRAL tree
+java -jar /home/xiongtao/data/software/ASTRAL-master/Astral/astral.5.7.8.jar -i rosa_tribe_genetrees.tre --outgroup Zelkova_schneideriana,Morus_alba,Elaeagnus_pungens_hangzhou -o rosa_tribe_Astral_species.tre
+
+pxrr -t rosa_tribe_Astral_species.tre -g Zelkova_schneideriana,Morus_alba,Elaeagnus_pungens_hangzhou > rosa_tribe_Astral_species.rt.tre
+

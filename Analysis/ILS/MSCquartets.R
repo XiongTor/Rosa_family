@@ -10,16 +10,16 @@ library(MSCquartets)
 ### Reading the tree file and couning the quartets
 gtrees=read.tree("best_genetree/rosa_sp_gene.tre")
 
-tnames=taxonNames(gtrees)   ###得到数据集中所有物种名字
+tnames=taxonNames(gtrees)   ###得到数据集中所有物种名字
 
 QT=quartetTable(gtrees)
 
-RQT=quartetTableResolved(QT)   ##转换所有quartet counts，丢弃unresolved的结果或者将其分到3个resolved计数（ mab|cd; mac|bd; mad|bc ）中。
+RQT=quartetTableResolved(QT)  ##转换所有quartet counts，丢弃unresolved的结果或者将其分到3个resolved计数（ mab|cd; mac|bd; mad|bc ）中。
 
 #quartetTable(trees, taxonnames = NULL, epsilon = 0, random = 0)  构建qcCFs table：taxonnames可以指定想要分析的物种，例如tnames[1:6]取前6个物种；eposilon是最小可以认为是非0的分支长度；random是如果随机抽取4个分类群的子集，抽取的数目，如果random=0，则使用所有子集。
 
 ### Conduct hypothesis testing
-pTable=quartetTreeTestInd(RQT,model="T1",speciestree=sptree)
+pTable=quartetTreeTestInd(RQT,model="T3",speciestree=sptree)
 #T3 means any topological, or you can use you species tree to do a constrained.
 # warning: the species tree should be text format, not a tree object.
 
@@ -27,8 +27,12 @@ Qtest=quartetStarTestInd(pTable)
 
 
 ### plot
-pdf("MSCquartets_result.pdf",width=10,height=10)
-  quartetTestPlot(Qtest, "T1", alpha=.000003, beta=.05) 
+pdf("MSCquartets_result.pdf",width=24,height=10)
+par(mfrow=c(1,4))
+  quartetTestPlot(Qtest, "T3", alpha=.01, cex = 3,  beta=.05) 
+  quartetTestPlot(Qtest, "T3", alpha=.001, cex = 3,  beta=.05) 
+  quartetTestPlot(Qtest, "T3", alpha=.0001, cex = 3, beta=.05) 
+  quartetTestPlot(Qtest, "T3", alpha=.000001,  cex = 3, beta=.05) 
 dev.off()
 
 
