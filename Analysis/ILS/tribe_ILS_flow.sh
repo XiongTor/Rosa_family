@@ -33,5 +33,3 @@ java -jar /home/xiongtao/data/software/ASTRAL-master/Astral/astral.5.7.8.jar -i 
 pxrr -t rosa_tribe_Astral_species.tre -g Zelkova_schneideriana,Morus_alba,Elaeagnus_pungens_hangzhou > rosa_tribe_Astral_species.rt.tre
 
 iqtree -s rosa_tribe_supermatrix.fasta -g rosa_tribe_Astral_species.tre -m MFP -b 1000 --bnni -T 15
-
-zzz111
