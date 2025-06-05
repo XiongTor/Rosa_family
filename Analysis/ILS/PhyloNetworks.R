@@ -67,3 +67,5 @@ raxmlCF = readTableCF("tableCF.csv")
 
 # 用astraltree,raxmlCF，指定hmax=0来运行。
 net0 = snaq!(astraltree,raxmlCF, hmax=0, filename="net0", seed=1234) 
+
+#直接运行接下来的若干net即可，可以尝试使用脚本并行或者迭代运行

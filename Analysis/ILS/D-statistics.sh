@@ -2,12 +2,13 @@
 # Author: Tao Xiong
 # Date: 2025-05-16
 # Description: This script is used to calculate the D-statistics to check the gene introgression.
+
 # ==== 主体代码开始 ====
 
 ########################## get the SNPs VCF file ################################
 # install snp-site
 # you can see the website of GitHub:https://github.com/sanger-pathogens/snp-sites
-   apt-get install snp-sites
+apt-get install snp-sites
 
 # prepare the input files
 # the input files is the fasta file you used to build the phylogenetic tree, it shoule be a supermatrix file.
@@ -24,3 +25,4 @@ Dsuite Fbranch rosa_Astral_species.rt.nolength.tre sets_tree.txt >fbranch.out
 
 # 用dtools.py脚本绘制f-branch图
 ~/data/software/Dsuite/utils/dtools.py fbranch.out rosa_Astral_species.rt.nolength.tre --outgroup Elaeagnus_pungens_hangzhou --use_distances --dpi 400 --tree-label-size 15
+
