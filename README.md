@@ -170,6 +170,10 @@
 
 	  This script is used to make the reference sequence for hybpiper.
 
+    - **count_OG_per_species.sh**
+
+      This script is used to count the number of orthologous groups (OGs) per species from Orthogroups/Orthogroups.GeneCount.tsv.
+
   ### **Others**
 
   >. collect other guys workflow and scripts.
