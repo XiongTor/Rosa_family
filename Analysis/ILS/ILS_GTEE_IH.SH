@@ -11,8 +11,8 @@ for seq in `ls ../trimal/*.fasta`; do
   iqtree -s $seq -m MFP --bnni -T 40 -b 100 -pre ./$(basename $seq .fasta)
 done
 
-# Delete the branch length messages in speciestree
-nw_topology -I rosa_Astral_species_rt.tre > rosa_Astral_species_rt_nobranch.tre
+# Delete the support messages in speciestree
+Rscript clean_supp.R rosa_Astral_species_rt.tre rosa_Astral_species_rt_clean.tre
 
 ## And you should cat all genetrees into one file, and so does the bootstrap trees
 cat *.genetrees > rosa_gene_trees.tre
