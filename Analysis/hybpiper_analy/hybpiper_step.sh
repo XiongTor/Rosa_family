@@ -13,22 +13,24 @@ hybpiper assemble -t_dna hybpiper/Reference_353.fasta -r ./final_fastq/trimmomat
 
 # loop
 while read -r name; do
-  hybpiper assemble -t_dna Reference_353.fasta -r ./${name}*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper_result	
-done <namelist.txt
+  hybpiper assemble -t_dna hybpiper_3/output.fasta -r ../data_collect/seqdata/trimmomatic/${name}*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper_chloroplast_out_3
+done <chloroplast_out_hybpiper_3.txt
+
 
 # Summary statistics
 ls | grep "_" >namelist.txt
 hybpiper stats -t_dna ./Reference_353.fasta gene namelist.txt --seq_lengths_filename seq_lengths
 #默认输出表格*.tsv（如seq_lengths.tsv），使用--seq_lengths_filename可以进行修改。注：即使参考序列是蛋白文件（amino-acid sequences），该部分还是计算核苷酸（nucleotides）的长度
 
+
 # Visualizing results
 hybpiper recovery_heatmap seq_lengths.tsv
 #sample_text_size和gene_text_size可以调整文中X、Y轴的文字大小
 
+
 # hybpiper retrieve_sequences
 hybpiper retrieve_sequences -t_dna ./Reference_353.fasta --sample_names namelist.txt --fasta_dir ../hybpiper_result dna
 #按基因名合并所有物种序列，输出每个基因未比对的序列（unaligned fasta files(one per gene)），使用--fasta_dir输出到指定的文件夹
-
 
 
 
