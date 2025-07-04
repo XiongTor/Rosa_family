@@ -7,14 +7,16 @@
 
 library(relaimpo)
 #This R script conducts relative importance decomposition to assign shares of importance of each variable and plot the results.
+args <- commandArgs(TRUE)
 
-x=read.csv('./example/relative_contribution_ILS_Err_Intro.csv')
-data=x[,c('Y_BSsum','X1_ILS','X2_Err','X3_Hyb')]
+x=read.csv(args[1],header=TRUE,sep="\t")
+
+data=x[,c('genetree_var','ILS','GTEE','IH')]
 #calculate relative importance
 calc.relimp(data, type = "lmg",rela=TRUE)
 
 #bootstrap for confidence intervals
-bootimpo.result <- boot.relimp(Y_BSsum~X1_ILS+X2_Err+X3_Hyb,data=data, b = 100,
+bootimpo.result <- boot.relimp(genetree_var~ILS+GTEE+IH,data=data, b = 100,
                     type = c("lmg", "last", "first", "pratt"),
                     rank = TRUE, diff = TRUE, rela = TRUE)
 
@@ -25,7 +27,7 @@ plot(booteval.relimp(bootimpo.result))
 
 ##Adding interaction terms in the regression model 
 
-linmod <- lm(Y_BSsum ~ log(X1_ILS)+log(X2_Err)+log(X3_Hyb)+log(X1_ILS * X2_Err) + log(X1_ILS * X3_Hyb) + log(X2_Err * X3_Hyb)+log(X1_ILS * X3_Hyb*X2_Err), data = data)
+linmod <- lm(genetree_var ~ log(ILS)+log(GTEE)+log(IH)+log(ILS * GTEE) + log(ILS * IH) + log(GTEE * IH)+log(ILS * IH*GTEE), data = data)
 summary(linmod)
 
 #Call:

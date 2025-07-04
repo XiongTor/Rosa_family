@@ -102,4 +102,11 @@ Rscript Rscript ~/data/scripts/ILS_GTEE_IH/get_theta_value.R rosa_Astral_species
 ### IH/Gene flow
 Rscript ~/data/scripts/ILS_GTEE_IH/get_node_inf.R unbalanced_triples_perc_reticulation_index.tre
 
-#
+###  combine the results
+# New you should conbine all the results into one file , like this:
+# nodeID	genetree_var	ILS		GTEE	IH
+# 1			963				0.5		0.5		1
+# 2			4				0.5		0.5		11
+# 3			801				4		27		4
+# 4			849				4		62		100
+
