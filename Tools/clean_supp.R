@@ -8,15 +8,10 @@
 #!/usr/bin/env Rscript
 
 # 加载 ape 包
-suppressPackageStartupMessages(library(ape))
+library(ape)
 
 # 获取命令行参数
-args <- commandArgs(trailingOnly = TRUE)
-
-if (length(args) != 2) {
-  cat("用法：Rscript strip_support.R <输入文件> <输出文件>\n")
-  quit(status = 1)
-}
+args <- commandArgs(TRUE)
 
 infile <- args[1]
 outfile <- args[2]
@@ -27,5 +22,3 @@ tree$node.label <- NULL
 
 # 写出新的树文件
 write.tree(tree, file = outfile)
-
-cat("✔ 已去除支持率并输出到：", outfile, "\n")

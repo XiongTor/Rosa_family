@@ -8,18 +8,31 @@
 # we need to build a species tree and many bootstrap replicates of gene tree. And all of them should be rooted.
 # Get 100 bootstrap gene trees, it means we need 353*100=35300 gene trees.
 for seq in `ls ../trimal/*.fasta`; do
-  iqtree -s $seq -m MFP --bnni -T 40 -b 100 -pre ./$(basename $seq .fasta)
+  iqtree -s $seq -m MFP --bnni -T 40 -b 100 -pre ./gene_trees/$(basename $seq .fasta)
 done
+
+# Astral species tree
+cat gene_trees/*.treefile > rosa_sp_genes.tre
+java -jar /home/xiongtao/data/software/ASTRAL-master/Astral/astral.5.7.8.jar -i rosa_sp_genes.tre --outgroup Zelkova_schneideriana -o rosa_Astral_species.tre
+
+#Rescale branch lengths
+raxmlHPC -f e -t rosa_Astral_species.tre -m GTRGAMMA -s ../rosa_sp_supermatrix.fasta -n rosa_astral_species_br.tre
+
+#Root the tree
+pxrr -t rosa_astral_species_br -g Zelkova_schneideriana >rosa_astral_species_br_rt.support
 
 # Delete the support messages in speciestree
 Rscript clean_supp.R rosa_Astral_species_rt.tre rosa_Astral_species_rt_clean.tre
 
+#Make sure the species tree do not have the zero branch length
+
+Rscript make_treelength_gt_0.R rosa_Astral_species_rt_clean.tre
 ## And you should cat all genetrees into one file, and so does the bootstrap trees
-cat *.genetrees > rosa_gene_trees.tre
-cat *.bootstrapped.tre > rosa_gene_trees_bootstrap.tre
+cat gene_trees/*.genetrees > rosa_gene_trees.tre
+cat gene_trees/*.bootstrapped.tre > rosa_gene_trees_bootstrap.tre
 
 
-################################ 2. calculate the relative contributions of ILS, GTEE, and IH ##########
+################################ 2. calculate the relative contributions of ILS, GTEE, and IH ######################
 
 # Simulate gene trees under coalescent model for each BP species tree
 # variations in the resulting simulated gene trees will reflect estimation error, ILS, and missing data in the empirical data set
