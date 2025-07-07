@@ -9,7 +9,7 @@ library(relaimpo)
 #This R script conducts relative importance decomposition to assign shares of importance of each variable and plot the results.
 args <- commandArgs(TRUE)
 
-x=read.csv(args[1],header=TRUE,sep="\t")
+x=read.csv(args[1],header=TRUE)
 
 data=x[,c('genetree_var','ILS','GTEE','IH')]
 #calculate relative importance

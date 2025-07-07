@@ -110,3 +110,4 @@ Rscript ~/data/scripts/ILS_GTEE_IH/get_node_inf.R unbalanced_triples_perc_reticu
 # 3			801				4		27		4
 # 4			849				4		62		100
 
+Rscript /data/xiongtao/scripts/ILS_GTEE_IH/relaimpo.R ILS_GTEE_IH.csv
