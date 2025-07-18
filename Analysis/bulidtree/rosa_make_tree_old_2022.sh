@@ -150,9 +150,9 @@ action=$1
 #教程： https://www.jianshu.com/p/2b882849ed61
 #循环比对
   mkdir mafft trimal
-  for name in `ls gene_outlier`;do
+  for name in `ls data`;do
     echo $(basename $name .fasta).mafft
-    mafft --auto gene_outlier/$name > mafft/$(basename $name .fasta).mafft
+    mafft --auto data/$name > mafft/$(basename $name .fasta).mafft
   done
 
 #循环过滤

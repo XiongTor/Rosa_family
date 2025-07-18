@@ -13,8 +13,8 @@ hybpiper assemble -t_dna hybpiper/Reference_353.fasta -r ./final_fastq/trimmomat
 
 # loop
 while read -r name; do
-  hybpiper assemble -t_dna hybpiper_3/output.fasta -r ../data_collect/seqdata/trimmomatic/${name}*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper_chloroplast_out_3
-done <chloroplast_out_hybpiper_3.txt
+  hybpiper assemble -t_dna hybpiper_3/output.fasta -r ../data_collect/seqdata/trimmomatic/${name}*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper_chloroplast_out_tail_3
+done <chloroplast_out_hybpiper_tac_3.txt
 
 
 # Summary statistics
@@ -29,7 +29,7 @@ hybpiper recovery_heatmap seq_lengths.tsv
 
 
 # hybpiper retrieve_sequences
-hybpiper retrieve_sequences -t_dna ./Reference_353.fasta --sample_names namelist.txt --fasta_dir ../hybpiper_result dna
+hybpiper retrieve_sequences -t_dna ../Reference_353.fasta --sample_names namelist.txt --fasta_dir ../hybpiper_result_353 dna
 #按基因名合并所有物种序列，输出每个基因未比对的序列（unaligned fasta files(one per gene)），使用--fasta_dir输出到指定的文件夹
 
 
