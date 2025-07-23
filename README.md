@@ -174,6 +174,9 @@
 
       This script is used to count the number of orthologous groups (OGs) per species from Orthogroups/Orthogroups.GeneCount.tsv.
 
+    - **DensiTree.R**  
+
+	  This script is used to plot the densitree.Show the gene trees distinction.
   ### **Others**
 
   >. collect other guys workflow and scripts.
