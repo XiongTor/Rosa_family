@@ -15,7 +15,7 @@ mkdir comb_result_genes
 for name in $hybpiper/*.FNA;do
     tt=$(basename $name|cut -f1 -d'.')
     awk '/^>/ {printf("\n%s\n",$0);next;} { printf("%s",$0);} END {printf("\n");}' $name |sed '1d'> comb_result_genes/${tt}.fasta
- done
+done
 
 ## 针对paftol进行处理 ##===========
 

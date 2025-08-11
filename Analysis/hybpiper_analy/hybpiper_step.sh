@@ -5,7 +5,7 @@
 #分步进行hybpiper运行
 
 # hybpiper assemble
-hybpiper assemble -t_dna ../../output.fasta -r ./trimmomatic/*.fq.gz --prefix SRR30183448 --bwa --hybpiper_output ./hybpiper_chloroplast
+hybpiper assemble -t_dna ./Reference_353.fasta -r ./trimmomatic/*.fq.gz --prefix Aremonia_agrimoniodes --bwa --hybpiper_output ./hybpiper_ags353
 # The parent output directory if supplied using the parameter --hybpiper_output or -o.
 #-t_dna目标文件是核苷酸，-t_aa是氨基酸
 #-t_aa默认是
@@ -13,13 +13,13 @@ hybpiper assemble -t_dna ../../output.fasta -r ./trimmomatic/*.fq.gz --prefix SR
 
 # loop
 while read -r name; do
-  hybpiper assemble -t_aa orthofinder_v3_singel_rf.fasta -r ../seqdata/trimmomatic/${name}*.fq.gz --prefix $name --diamond --hybpiper_output ./
-done <namelist.txt
+  hybpiper assemble -t_dna ./Reference_353.fasta -r ./trimmomatic/${name}*.fq.gz --prefix $name --bwa --hybpiper_output ./hybpiper_ags353
+done <srr.txt
 
 
 # Summary statistics
 ls | grep "_" >namelist.txt
-hybpiper stats -t_dna ./Reference_353.fasta gene ../namelist.txt --seq_lengths_filename seq_lengths
+hybpiper stats -t_dna ../Reference_353.fasta gene ./add_list.txt --seq_lengths_filename seq_lengths
 #默认输出表格*.tsv（如seq_lengths.tsv），使用--seq_lengths_filename可以进行修改。注：即使参考序列是蛋白文件（amino-acid sequences），该部分还是计算核苷酸（nucleotides）的长度
 
 
