@@ -249,4 +249,3 @@ for(nm in names(lm_results)){
   print(lm_results[[nm]])
 }
 sink()
-
