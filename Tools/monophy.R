@@ -2,6 +2,7 @@
 # Author: Tao Xiong
 # Date: 2025.04.18
 # This script is used to check the monophyly of each clade by R package MonoPhy
+# usage: Rscript monophy.R $treefile
 
 file<-commandArgs(TRUE)
 

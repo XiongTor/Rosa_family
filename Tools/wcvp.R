@@ -2,8 +2,10 @@
 # Author: Tao Xiong
 # Date: 2025.03.28
 # This script is used to do the name standardization by WCVP
+# usage: Rscript wcvp.R $namelist
 
 # *******  The input file shoule include the species name column named "Species"  *********
+# ******* Note that the separator between the genus name and the species epithet must be a space. **********
 
 file<-commandArgs(TRUE)
 

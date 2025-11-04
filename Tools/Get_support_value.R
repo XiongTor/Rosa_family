@@ -2,7 +2,8 @@
 # Author: Tao Xiong
 # Date: 2025-08-27
 # Description: Extract ASTRAL support values with node IDs
-
+# usage: Rscript Get_support_value.R $input_tree $output_csv
+# you can rename the output file name by yourself
 # ==== Main Script Start ====
 
 suppressMessages(library(ape))
@@ -11,11 +12,11 @@ suppressMessages(library(ape))
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) < 1) {
-  stop("Using: Rscript extract_astral_support.R input_tree [output_csv]")
+  stop("Using: Rscript Get_support_value.R input_tree $output_csv")
 }
 
 input_file <- args[1]
-output_file <- ifelse(length(args) >= 2, args[2], "astral_support_gcf_scf.csv")
+output_file <- ifelse(length(args) >= 2, args[2], "Support_values.csv")
 
 # 读取树
 tree <- read.tree(input_file)

@@ -2,7 +2,7 @@
 # Author: Tao Xiong
 # Date: 2025.04.16
 # This script is used to check the monophyly of each clade
-
+#usage: Rscript mono.R $treefile
 file<-commandArgs(TRUE)
 
 library(ape)
@@ -18,10 +18,10 @@ tree <- read.tree(file)
 tip <- as.data.frame(tree$tip.label)
 colnames(tip) <- c("tiplables")
 
-#get the subfamily
+#get the subfamily/genus name
 tip$subf <- sapply(strsplit(as.character(tip$tiplables), "_"),`[`,1)
 
-#get the subfamily name list
+#get the subfamily/genus name list
 subfamily <- sapply(strsplit(as.character(tip$tiplables), "_"),`[`,1) %>% unique()
 
 

@@ -39,3 +39,5 @@ for seq in comb_result_genes/*.fasta;do
     tt=$(basename $seq)
     seqkit seq -w 60 $seq > comb_result_genes_60/$tt
 done
+
+
