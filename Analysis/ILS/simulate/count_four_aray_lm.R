@@ -1,6 +1,6 @@
 # !/usr/bin/Rscript
 # Author: Tao Xiong
-# Date: 2025.05.04
+# Date: 2025.11.18
 # Usage: This script is used to count the quartet frequencies from gene trees.
 
 # ==== Main Script Start ====
@@ -22,16 +22,18 @@ message("Reading species & gene trees...")
 gtrees = read.tree(files[1])
 
 sptree=read.tree(files[2])
+sptree <- drop.tip(sptree,c("Elaeagnus_angustifolia","Zelkova_schneideriana","Morus_indica"))
 sptree_list <- list(sptree)
 class(sptree_list) <- "multiPhylo"
 
-simulate_list = lapply(files[3:4], read.tree)
-names(simulate_list) = paste0("sim", 1:2)
+simulate_list = lapply(files[3:8], read.tree)
+names(simulate_list) = paste0("sim", 1:6)
 
 # 提取亚科树，主要是作为参考，由于后续分离四联体需要multiPhylo格式树文件，因此在此处进行转换
 Amy <- c("Prunus_padus","Exochorda_racemosa_subsp._serratifolia","Gillenia_trifoliata","Coleogyne_ramosissima","Kerria_japonica","Oemleria_cerasiformis","Prinsepia_uniflora","Rhodotypos_scandens","Lyonothamnus_floribundus","Alniaria_alnifolia","Amelanchier_laevis","Aria_edulis","Aronia_arbutifolia","Chaenomeles_speciosa","Chamaemeles_coriacea","Cormus_domestica","Cotoneaster_frigidus","Crataegus_hupehensis","Cydonia_oblonga","Dichotomanthes_tristaniicarpa","Eriobotrya_japonica","Griffitharia_hemsleyi","Hesperomeles_cuneata","Kageneckia_oblonga","Karpatiosorbus_bristoliensis","Lindleya_mespiloides","Macromeles_tschonoskii","Malacomeles_denticulata","Malus_domestica","Micromeles_alnifolia","Osteomeles_schweriniae","Peraphyllum_ramosissimum","Phippsiomeles","Photinia_prunifolia","Pourthiaea_amphidoxa","Pseudocydonia_sinensis","Pyracantha_coccinea","Pyrus_communis","Rhaphiolepis_ferruginea","Sorbus_aucuparia","Stranvaesia_nussia","Thomsonaria_caloneura","Torminalis_glaberrima","Vauquelinia_australis","Weniomeles_bodinieri","Neillia_sinensis","Physocarpus_opulifolius","Sorbaria_kirilowii_var._arborea","Aruncus_dioicus","Spiraea_blumei")
 Dry <- c("Cercocarpus_ledifolius","Chamaebatia_foliolosa","Dryas_ajanensis_subsp._ajanensis","Purshia_tridentata")
 Ros <- c("Acaena_ovalifolia","Agrimonia_pilosa_var._pilosa","Bencomia_exstipulata","Margyricarpus_pinnatus","Polylepis_tarapacana","Sanguisorba_minor","Coluria_longifolia","Geum_urbanum","Taihangia_rupestris","Waldsteinia_ternata","Alchemilla_faeroensis","Argentina_anserina","Chamaecallis_perpusilloides","Chamaerhodos_erecta","Comarum_palustre","Dasiphora_fruticosa","Drymocallis_arguta","Fragaria_nilgerrensis","Potaninia_mongolica","Potentilla_acaulis","Sibbaldia_parviflora","Sibbaldianthe_bifurca","Rosa_chinensis","Rubus_argutus","Filipendula_ulmaria")
+
 
 subtree_Amy <- keep.tip(sptree, Amy)
 subtree_Amy_list <- list(subtree_Amy)
@@ -88,10 +90,12 @@ tname_Ros <- taxonNames(subtree_Ros_list)
 QT_Ros <- get_qt_df(subtree_Ros_list,tname_Ros)
 
 #基因树集合及四连体运算
-QT_real   <- get_qt_df(gtrees)
+QT_real   <- get_qt_df(gtrees,tnames)
 
 #模拟树集合及四连体运算
-QT_sim_df_list <- lapply(simulate_list, get_qt_df)
+QT_sim_df_list <- lapply(simulate_list, function(tree_set) {
+  get_qt_df(tree_set, tnames)
+})
 
 # 给 QT_sim_df_list 列加后缀，如“_1”，"_2"
 for(nm in names(QT_sim_df_list)){
@@ -103,7 +107,7 @@ message("QT data saved to QT_cache.RDS")
 saveRDS(list(QT_real=QT_real, QT_sim_df_list=QT_sim_df_list), qt_cache_file)
 
 #读取之前保存的文件
-# qt_cache <- readRDS("QT_cache_2.RDS")
+# qt_cache <- readRDS("QT_cache.RDS")
 # QT_real <- qt_cache$QT_real
 
    
@@ -128,6 +132,9 @@ QT_Ros_2 <- QT_Ros[,26:30]
 QT_Ros_2$comb <- sapply(strsplit(QT_Ros_2$comb, "\\s+"), function(x) {
   paste(x[1:4], collapse = " ")
 })
+
+#将所有参考树的结果保存到一个向量中，方便后续选择
+reference <- c("QT_sp_2", "QT_Amy_2", "QT_Ros_2")
 
 #处理基因树集合，提取需要的列，并更改comb列的内容，使得程度可用
 QT_real_2 <- QT_real[,83:87]
@@ -159,12 +166,13 @@ get_prop_compare_fast <- function(ref_df, target_df){
   return(dt[, ..keep_cols])
 }
 
-
+for(ref in reference){
+  cat("Processing with reference:", ref, "\n")
 #开始以参考树为基准，处理基因树集合
-result_genetree <- get_prop_compare_fast(QT_sp_2, QT_real_2)
+result_genetree <- get_prop_compare_fast(ref, QT_real_2)
 
 #开始以参考树为基准，处理模拟树集合
-QT_sim_df_list <- qt_cache$QT_sim_df_list
+# QT_sim_df_list <- qt_cache$QT_sim_df_list
 
 QT_sim_df_list_sub <- lapply(names(QT_sim_df_list), function(nm){
   # 提取子集，并更改comb列的内容
@@ -174,7 +182,7 @@ QT_sim_df_list_sub <- lapply(names(QT_sim_df_list), function(nm){
     paste(x[1:4], collapse = " ")
   })
   #开始以参考树为基准，处理基因树集合
-  result <- get_prop_compare_fast(QT_sp_2, mm)
+  result <- get_prop_compare_fast(ref, mm)
   # 只给非 comb 的列加后缀
   colnames(result) <- ifelse(colnames(result) == "comb",
                          "comb",
@@ -196,7 +204,7 @@ lm_results <- list()
 plot_list <- list()
 
 # 遍历模拟列表,并与真实数据进行线性回归集合判断相关性，同时作图展示结果
-for(nm in names(QT_sim_df_list_sub)){
+ for(nm in names(QT_sim_df_list_sub)){
   
   cat("处理:", nm, "\n")
   
@@ -235,17 +243,17 @@ for(nm in names(QT_sim_df_list_sub)){
   plot_list[[nm]] <- p
   
   # 保存图
-  ggsave(filename = paste0("scatter_", nm, ".pdf"), plot = p, width = 6, height = 9)
+  ggsave(filename = paste0(ref,"_scatter_", nm, ".pdf"), plot = p, width = 6, height = 9)
+ }
 }
-
 
 # 输出回归结果到具体表格中
 # 定义输出文件
-outfile <- "lm2_results.txt"
-# 打开连接
-sink(outfile) 
-for(nm in names(lm_results)){
-  cat("\n===== ", nm, " =====\n")
-  print(lm_results[[nm]])
-}
-sink()
+# outfile <- "lm3_results.txt"
+# # 打开连接
+# sink(outfile) 
+# for(nm in names(lm_results)){
+#   cat("\n===== ", nm, " =====\n")
+#   print(lm_results[[nm]])
+# }
+# sink()

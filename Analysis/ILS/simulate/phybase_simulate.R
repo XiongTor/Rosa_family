@@ -15,7 +15,7 @@ spname <- species.name(mptree1)
 nodematrix <- read.tree.nodes(str=mptree1, name=spname)$nodes
 
 theta_levels <- c(0.001,0.055,0.840,8.845)   # 不同程度的 ILS（从弱到强）
-n_gene <- 2000                    # 每组生成2000棵基因树
+n_gene <- 3000                    # 每组生成3000棵基因树
 
 for (theta in theta_levels) {
   nodematrix[,5] <- theta
