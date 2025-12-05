@@ -2,7 +2,6 @@
 # Author: Tao Xiong
 # Date: 2025.05.04
 # This script is used to record the MSCquartets analysis
-# 
 # install.packages("MSCquartets")
 
 library(ape)
