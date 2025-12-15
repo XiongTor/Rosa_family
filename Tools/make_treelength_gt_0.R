@@ -16,8 +16,11 @@ tree <- read.tree(tree_file)
 # 去除零分支长度
 tree_good <- dispRity::remove.zero.brlen(tree)
 
-# 将处理后的树写入文件
-write.tree(tree_good, "tree_without_zero_length.tre")
+# 构造输出名字  ——  在 .tre 前面加上 _nozero
+out_file <- sub("\\.tre$", "_nozero.tre", tree_file)
+
+# 保存结果
+write.tree(tree_good, out_file)
 
 # 检查是否还有零分支长度
 any(tree_good$edge.length == 0)
