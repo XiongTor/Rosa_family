@@ -95,3 +95,22 @@ for name in trimal/*.fasta;do
   tt=$(basename $name _OG_rn.tri.fasta)
   iqtree -s $name -g ${name}_outaln.constraint_rn.tre.filt -m MFP -B 1000 --bnni -T 10 -pre ./genetrees/${tt}
 done
+
+
+# 建树报错处理 -------------------------------------------------------------------------------------------
+## 在一些时候，会发现建树过程中报错，“ERROR: ERROR: Taxon Spigelia_loganioides in constraint tree does not appear in full tree”
+## 这种情况一般是因为在进行trimal之后，部分物种的序列信息全部被trim掉了，导致在建树时，限制树中的物种在序列文件中找不到
+## 解决办法就是直接在限制树中去掉这些物种，可以根据报错的log文件抓取这些物种名称信息。
+for f in *.log; do
+  grep "in constraint tree does not appear in full tree" "$f" \
+  | sed 's/ERROR: ERROR: Taxon //g;s/ in constraint tree does not appear in full tree//' \
+  | sort -u \
+  > "${f%.log}_drop_taxa.txt"
+done
+
+# 去除限制树中的对应物种
+for name in ./*_drop_taxa.txt;do
+  echo $name
+  tt=$(basename $name _drop_taxa.txt)
+  pxrmt -t ./${tt}_outaln.constraint_rn.tre.filt -f $name > ./${tt}.outaln.constraint_rn_fixed.tre.filt
+done

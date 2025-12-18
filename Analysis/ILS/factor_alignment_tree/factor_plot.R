@@ -2,7 +2,6 @@
 # Author: XiongTao
 # date: 2025.12.11
 # usage: Anlayse the different factor between Chloroplast and Nuclear in Rosaceae
-
 library(ape)
 library(phangorn)
 library(dplyr)
@@ -12,6 +11,7 @@ library(corrplot)
 library(cowplot)
 library(clue) 
 library(ggplot2)
+library(plotly)
 
 #相关的因素，使用的因子  -------------------------------------------------------------------
 # No_of_taxa
@@ -94,6 +94,11 @@ merged_ags353 <- reduce(df_ags, full_join, by="Alignment_name") %>%
          absolute_saturation,
          treeness.RCV)
 
+
+## 去除无用的元素
+rm(file_c,file_ags,df_ags,df_chloroplast)
+
+
 # 2.画图展示所有因子在叶绿体和核基因之间的数值差异 -------------------------------------------
 
 ## 先给数据框加标签方便区分来源
@@ -169,6 +174,10 @@ for (i in seq_along(cols)) {
 ## 用cowplot将所有图拼接在一起，按列排列
 final <- plot_grid(plotlist = plot_list, ncol = 3, align = "hv")
 ggsave("all_density_plots.pdf", final, width = 15, height = 15)
+
+
+## 去除无用的元素
+rm(df,p,plot_list)
 
 # 3.相关性分析，判断哪些因素相关性高 -------------------------------------------------------------
 
@@ -253,130 +262,131 @@ col <- ggplot(df, aes(x = order)) +
 ggsave("col.pdf", col, width = 7, height = 5)
 
 # 4.针对上述三个因素挑选高中低三个指标的基因，并计算高中低三个区间内基因树彼此之间的RF距离 ---------------------------------------------------------
-merged <- merged_chloroplast
-factor <- "Proportion_parsimony_informative"
+
+## 配置区域 ---
+## 设置树的路径
 all_tree <- list.files("./tree/Chloroplast/",pattern = "\\.tre$",full.names = T)
 
-d <- density(merged[[factor]], adjust = 3)
-df <- data.frame(x=d$x, y=d$y)
-## 计算分位点
-x <- merged[[factor]]
+## 区间模式选择
+## "paired"     : 隔一个取一段 (1-2, 3-4, 5-6, ...)
+## "consecutive": 取所有连续段 (1-2, 2-3, 3-4, 4-5, ...)
+interval_mode <- "consecutive"
+# 设置分位点（成对出现，每对定义一个区间）
+quantile_points <- c(0.0, 0.2, 0.4, 0.6, 0.8, 1)
+n_intervals=5
+# 设置每个区间的颜色
+interval_colors <- c("#4DAF4A","white", "#377EB8","white", "#E41A1C")
 
+# 设置每个区间的标签（可选）
+interval_labels <- c("Low","Low_m","Mid","Mid_h","High")
+
+## 主程序 ---
+merged <- merged_chloroplast
+factor <- "Proportion_parsimony_informative"
+
+# 计算密度
+d <- density(merged[[factor]], adjust = 3)
+df <- data.frame(x = d$x, y = d$y)
+
+# 计算实际分位点值
+x <- merged[[factor]]
 qs <- round(
-  min(x, na.rm = TRUE) +
-    c(0.1, 0.25, 0.35, 0.5, 0.6, 0.75) *
-    (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)),
+  min(x, na.rm = TRUE) + 
+    quantile_points * (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)),
   2
 )
 
+# 动态创建区间数据和基因列表
+interval_data <- list()
+genes_list <- list()
 
-low <- df[df$x >= qs[[1]] & df$x <= qs[[2]] , ] 
-mid <- df[df$x >= qs[[3]] & df$x <= qs[[4]] , ]
-high <- df[df$x >= qs[[5]] & df$x <= qs[[6]] , ]
+for (i in 1:n_intervals) {
+  # 根据模式确定起止索引
+  if (interval_mode == "paired") {
+    idx_start <- 2 * i - 1
+    idx_end <- 2 * i
+  } else {  # consecutive
+    idx_start <- i
+    idx_end <- i + 1
+  }
+  
+  # 提取区间数据
+  interval_data[[i]] <- df[df$x >= qs[idx_start] & df$x <= qs[idx_end], ]
+  
+  # 提取基因名
+  genes_list[[i]] <- merged[["Alignment_name"]][
+    merged[[factor]] >= qs[idx_start] & 
+      merged[[factor]] <= qs[idx_end]
+  ]
+  
+  # 设置名称
+  if (length(interval_labels) >= i) {
+    names(genes_list)[i] <- interval_labels[i]
+  } else {
+    names(genes_list)[i] <- paste0("Interval_", i)
+  }
+}
 
-## 提取基因名
-genes_low <- merged[["Alignment_name"]][
-  merged[[factor]] >= qs[[1]] &
-    merged[[factor]] <= qs[[2]]
-]
+## 绘图：使用循环避免重复代码 ---
+# 初始化基础图层
+p1 <- ggplot(df, aes(x, y)) +
+  geom_area(fill = "#7393B3", alpha = 0.75) +
+  geom_line(linewidth = 0.6) +
+  theme_bw() +
+  labs(x = factor, y = "Density")
 
-genes_mid <- merged[["Alignment_name"]][
-  merged[[factor]] >= qs[[3]] &
-    merged[[factor]] <= qs[[4]]
-]
+# 循环添加区间和标签
+for (i in 1:n_intervals) {
+  idx_start <- 2 * i - 1
+  idx_end <- 2 * i
+  
+  # 添加区间 ribbon
+  p1 <- p1 + 
+    geom_ribbon(
+      data = interval_data[[i]],
+      aes(ymin = 0, ymax = y),
+      fill = interval_colors[i],
+      alpha = 0.6
+    )
+  
+  # 添加起点和终点标签
+  p1 <- p1 + 
+    annotate("text", x = qs[idx_start], y = 0, 
+             label = qs[idx_start],
+             vjust = 1.5, size = 3) +
+    annotate("text", x = qs[idx_end], y = 0, 
+             label = qs[idx_end],
+             vjust = 1.5, size = 3)
+}
 
-genes_high <- merged[["Alignment_name"]][
-  merged[[factor]] >= qs[[5]] &
-    merged[[factor]] <= qs[[6]]
-]
-
-
-
-p1 <- ggplot(df, aes(x,y)) +
-  # 整体密度
-  geom_area(fill="#7393B3", alpha=.75) +
-  geom_line(linewidth=0.6) +
-  # 只在区间内部画 ribbon（自动贴曲线）
-  geom_ribbon(
-    data = low,
-    aes(ymin=0, ymax=y),
-    fill = "#4DAF4A",
-    alpha = 0.6
-  ) +
-  annotate("text", x = qs[[1]], y = 0, label = qs[[1]],
-           vjust = 1.5, size=3) +
-  annotate("text", x = qs[[2]], y = 0, label = qs[[2]],
-           vjust = 1.5, size=3)+
-  geom_ribbon(
-    data = mid,
-    aes(ymin=0, ymax=y),
-    fill = "#377EB8",
-    alpha = 0.6
-  ) +
-  annotate("text", x = qs[[3]], y = 0, label = qs[[3]],
-           vjust = 1.5, size=3) +
-  annotate("text", x = qs[[4]], y = 0, label = qs[[4]],
-           vjust = 1.5, size=3)+
-  geom_ribbon(
-    data = high,
-    aes(ymin=0, ymax=y),
-    fill = "#E41A1C",
-    alpha = 0.6
-  ) +
-  annotate("text", x = qs[[5]], y = 0, label = qs[[5]],
-           vjust = 1.5, size=3) +
-  annotate("text", x = qs[[6]], y = 0, label = qs[[6]],
-           vjust = 1.5, size=3)+
-  labs(x="Proportion_parsimony_informative", y="Density") +
-  theme_bw()
-
-p1
+# 显示图形
+print(p1)
 
 
 ## 绘制对应的高中低的因子数值的箱线图
-df_pvs <- data.frame(
-  Proportion_variable_sites = c(
-    merged[[factor]][
-      merged[["Alignment_name"]] %in% genes_low
+df_pvs <- do.call(rbind, lapply(1:n_intervals, function(i) {
+  data.frame(
+    Proportion_variable_sites = merged[[factor]][
+      merged[["Alignment_name"]] %in% genes_list[[i]]
     ],
-    merged[[factor]][
-      merged[["Alignment_name"]] %in% genes_mid
-    ],
-    merged[[factor]][
-      merged[["Alignment_name"]] %in% genes_high
-    ]
-  ),
-  Group = factor(
-    c(
-      rep("Low",  length(genes_low)),
-      rep("Mid",  length(genes_mid)),
-      rep("High", length(genes_high))
-    ),
-    levels = c("Low", "Mid", "High")
+    Group = names(genes_list)[i]
   )
-)
-
-low_col  <- "#4DAF4A"  # Low
-mid_col  <- "#377EB8"  # Mid
-high_col <- "#E41A1C"  # High
+}))
+df_pvs$Group <- factor(df_pvs$Group, levels = names(genes_list))
 
 p2 <- ggplot(df_pvs, aes(x = Group, y = Proportion_variable_sites, fill = Group)) +
   geom_violin(
-    width = 0.6,
-    alpha = 0.7,
+    width = 1,
+    alpha = 0.4,
     trim = TRUE
   ) +
   geom_boxplot(
     fill="white",
-    width = 0.1,
+    width = 0.2,
     outlier.shape = NA
   ) +
   scale_fill_manual(
-    values = c(
-      Low  = low_col,
-      Mid  = mid_col,
-      High = high_col
-    )
+    values = interval_colors
   ) +
   theme_classic(base_size = 14) +
   ylab(factor) +
@@ -386,6 +396,8 @@ p2 <- ggplot(df_pvs, aes(x = Group, y = Proportion_variable_sites, fill = Group)
 
 
 ## 开始读取所有的基因树，并计算RF距离
+
+## 自定义函数
 pairwise_rf_onecol <- function(
     genes,
     all_tree,
@@ -454,55 +466,47 @@ pairwise_rf_onecol <- function(
   return(rf_mat)
 }
 
-rf_low <- pairwise_rf_onecol(
-  genes = genes_low,
-  pattern_suffix = ".",
-  all_tree,
-  min_tips = 5
-)
 
-
-
-rf_mid <- pairwise_rf_onecol(
-  genes = genes_mid,
-  pattern_suffix = ".",
-  all_tree,
-  min_tips = 5
-)
-
-rf_high <- pairwise_rf_onecol(
-  genes = genes_high,
-  pattern_suffix = ".",
-  all_tree,
-  min_tips = 5
-)
-
-df_rf <- data.frame(
-  RF = c(
-    as.numeric(rf_low),
-    as.numeric(rf_mid),
-    as.numeric(rf_high)
-  ),
-  Group = factor(
-    c(
-      rep("Low",  nrow(rf_low)),
-      rep("Mid",  nrow(rf_mid)),
-      rep("High", nrow(rf_high))
-    ),
-    levels = c("Low", "Mid", "High")
+#正式计算
+rf_list <- list()
+rf_list <- lapply(1:n_intervals, function(i) {
+  pairwise_rf_onecol(
+    genes = genes_list[[i]],
+    pattern_suffix = ".",
+    all_tree,
+    min_tips = 5
   )
-)
+})
 
+
+# 动态构建 RF 数据框
+df_rf <- do.call(rbind, lapply(1:n_intervals, function(i) {
+  data.frame(
+    RF = as.numeric(rf_list[[i]]),
+    Group = names(genes_list)[i]
+  )
+}))
+    
+# 设置分组因子顺序
+df_rf$Group <- factor(df_rf$Group, levels = names(genes_list))
+
+
+# 设置分组因子顺序
+df_rf$Group <- factor(df_rf$Group, levels = names(genes_list))
+
+gene_n <- sapply(genes_list, length)
+group_labels <- paste0(names(gene_n), "\n(", gene_n, ")")
+names(group_labels) <- names(gene_n)
 
 p3 <- ggplot(df_rf, aes(x = Group, y = RF, fill = Group)) +
   geom_violin(
-    width = 0.6,
-    alpha = 0.7,
+    width = 1,
+    alpha = 0.4,
     trim = TRUE
   ) +
   geom_boxplot(
     fill="white",
-    width = 0.1,
+    width = 0.2,
     outlier.shape = NA
   ) +
   scale_fill_manual(
@@ -512,20 +516,26 @@ p3 <- ggplot(df_rf, aes(x = Group, y = RF, fill = Group)) +
       High = high_col
     )
   ) +
+  scale_x_discrete(labels = group_labels) +
   theme_classic(base_size = 14) +
-  ylab(factor) +
+  ylab("RF") +
   xlab("")+
   theme(legend.position = "none")
 
 
-pdf("Chloroplast_parsimony.pdf",width = 10,height = 10)
-plot_grid(p2,p3,ncol = 1)
+pdf("Chloroplast_parsimony_rf.pdf",width = 16,height = 10)
+plot_grid(
+  p1,
+  plot_grid(p2, p3, ncol = 1),
+  ncol = 2,
+  rel_widths = c(1, 1)
+)
 dev.off()
 
+rm(col,d,df,df_long,df_pvs,df_rf,final,genes_list,high,interval_data,low,low_m,mid,mid_h,rf_list,rf_high,rf_mid,rf_low,res,p_mat,cor_mat)
 
 
-
-# 5.寻找ags353与chloroplast相似的基因 ----------------------------------------------------------------
+# 5.寻找ags353与chloroplast相似的基因 (完成此步后，需建树)----------------------------------------------------------------
 
 ## 5.1 建立函数 -----------------------------------------------------------------
 ## 寻找与质体最匹配的一个基因---自定义函数 
@@ -857,7 +867,9 @@ merged_chloroplast[[factor]] <-
 merged_ags353[[factor]] <-
   as.numeric(as.character(merged_ags353[[factor]]))
 
-
+# 调控pct值，使得至少能够匹配出与叶绿体基因树量相同的核基因
+# 在此前提下，pct越小越好，越大能匹配出的核基因数量越多，但同时也越不精准
+# 同时也是由于pct值需要调试，目前难以直接批量化循环
 result_gene_GC <- match_property_once(merged_chloroplast, merged_ags353,factor, pct=0.8)
 
 result_gene_GC <- match_property_once_random(merged_chloroplast, merged_ags353,factor, pct=0.8)
@@ -1080,11 +1092,12 @@ props <- c("GC_content",
 ## PCA 输入矩阵
 X <- scale(df_all[, props])
 
+## PCA计算，计算每个轴中各个因素的占比贡献
 pca <- prcomp(X, center = TRUE, scale. = TRUE)
 saveRDS(df_all, file = "df_all.rds")
 saveRDS(pca,    file = "pca.rds")
 
-
+## 统计每一个轴的解释度
 summary(pca)$importance[2, ]
 
 pca_df <- data.frame(
@@ -1114,8 +1127,8 @@ merged_chloroplast <- merge(
   all.x = TRUE
 )
 
-
-p3 <- ggplot(pca_df, aes(PC2, PC3, color = type)) + 
+# 按照二维画出不同PC轴组成的平面的点的分布
+p2 <- ggplot(pca_df, aes(PC1, PC3, color = type)) + 
   geom_point(size = 3, alpha=0.8) +
   stat_ellipse(level = 0.95, size=1) +
   theme_bw(base_size = 16)+
@@ -1123,8 +1136,9 @@ p3 <- ggplot(pca_df, aes(PC2, PC3, color = type)) +
         legend.background = element_blank())
 
 plot_grid(p1,p2,p3,ncol=3)
+
+
 ## 三维
-library(plotly)
 
 pca_df_3d <- data.frame(
   PC1 = pca$x[,1],
@@ -1148,7 +1162,3 @@ plot_ly(
       zaxis = list(title = "PC3")
     )
   )
-
-
-
-
