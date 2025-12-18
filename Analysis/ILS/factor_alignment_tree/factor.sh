@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Tao Xiong
 # Date: 2025-12-07
-# Description: 
+# Description: Use phykit and AMAS to get alignment and tree statistics
 # ==== 主体代码开始 ====
 
 #####################   use AMAS to get alignment statistics #####################

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Tao Xiong
 # Date: 2025-12-16
-# Description: This script 
+# Description: This script is to build trees for 20 iterations of factor alignment.(repent 20 times)
 # ==== 主体代码开始 ====
 
 mkdir -p tmp
@@ -34,7 +34,7 @@ for name in ./*.treefile;do
   Rscript ~/data/scripts/mono.R ./${mm}_rt_rn.tre
 done
 
-#!/bin/bash
+# 并行跑20个重复的树
 
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: Mean_evolutionary_rate/Chloroplast_like/*.fasta
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: Proportion_parsimony_informative/Chloroplast_like/*.fasta

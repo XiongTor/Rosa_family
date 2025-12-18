@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Tao Xiong
 # Date: 2025-12-16
-# Description: 
+# Description: Help to build phylogenetic tree using PyPHLAWD semi-automatically.
 # ==== 主体代码开始 ====
 
 family=Meliaceae
