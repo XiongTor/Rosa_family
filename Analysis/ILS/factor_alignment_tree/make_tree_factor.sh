@@ -26,6 +26,7 @@ iqtree -s Chloroplast_like/$fasta -m MFP -B 1000 --bnni -T 5 -pre ./Chloroplast_
 mkdir treefile
 cp Chloroplast_like/*.treefile treefile
 
+cd treefile
 for name in ./*.treefile;do
   mm=$(basename $name .treefile)
   echo $mm
@@ -33,6 +34,10 @@ for name in ./*.treefile;do
   pxrlt -t ${mm}_rt.tre -c ../../old_name.txt -n ../../new_name.txt>./${mm}_rt_rn.tre
   Rscript ~/data/scripts/mono.R ./${mm}_rt_rn.tre
 done
+
+cd ..
+mkdir reroot
+mv treefile/*_rt.tre reroot
 
 # 并行跑20个重复的树
 

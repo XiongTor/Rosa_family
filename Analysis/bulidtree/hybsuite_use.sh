@@ -14,6 +14,7 @@ hybsuite full_pipeline \
 -skip_stage 01 \
 -nt 12 \
 -process 5
+-paragone_cutoff_value 0.3
 
 
 
@@ -45,3 +46,18 @@ hybsuite full_pipeline \
 -skip_stage 01 \
 -nt 12 \
 -process 5
+
+#2026.01.06,用于AGS353
+hybsuite full_pipeline \
+-input_list ./namelist.txt \
+-eas_dir ./hybpiper_hybsuite \
+-output_dir ./hybsuite_result \
+-t Reference_353.fasta \
+-min_sample_coverage 0.1 \
+-min_locus_coverage 0.1 \
+-min_length 0 \
+-skip_stage 01 \
+-nt 12 \
+-process 5 \
+-OI 1234567b \
+-paragone_cutoff_value 0.3
