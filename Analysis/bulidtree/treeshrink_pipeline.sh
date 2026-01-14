@@ -87,11 +87,44 @@ done<namelist.txt
 
 ### 值得注意的是，treeshrink似乎会在去除序列后自动做序列修剪，导致按照此流程，插入的原序列的外类群会和treeshrink后的序列无法对齐，从而导致建树错误，因此建议在此时重新比对修剪
 
+# 检查哪些序列需要重新比对，哪些不需要
+n=0
+for name in seq_data/*.fasta;do
+  n=$((n+1))
+  echo $n
+  tt=$(basename $name)
+  
+  # 检查序列长度是否一致
+  unique_len=$(seqkit fx2tab -l -n $name | cut -f2 | sort -u | wc -l)
+  
+  if [ $unique_len -eq 1 ];then
+    echo $tt >> aligned_list.txt
+  else
+    echo $tt >> unaligned_list.txt
+  fi
+done
 
-for name in `ls seq_data`;do
+
+# 将aligned_list.txt均分为5份，方便后续并行处理
+split -n l/5 -d --additional-suffix=.txt aligned_list.txt batch_
+
+#并行
+### make_tree_aligned.sh
+file=$1
+
+while read -r name;do
+  tt=$(basename $name .fasta)
+  iqtree -s seq_data/$name -m MFP -B 1000 --bnni -T 10 -pre ./genetrees/${tt}
+done<$file
+# ---------------
+
+nohup parallel 'bash make_tree_aligned.sh {}' ::: batch_*.txt &
+
+
+while read -r name;do
   echo $(basename $name .fasta).mafft
   mafft --auto seq_data/$name > mafft/$(basename $name .fasta).mafft
-done
+done<unaligned_list.txt
 
 for name in ls mafft/*.mafft; do
   echo ${name}.tri.fasta
