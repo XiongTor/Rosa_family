@@ -2,36 +2,37 @@
 # Author: Tao Xiong
 # Date: 2025-08-27
 # Description: Extract ASTRAL support values with node IDs
-# usage: Rscript Get_support_value.R $input_tree $output_csv
-# you can rename the output file name by yourself
+# usage: Rscript Get_support_value.R input_tree [output_csv]
 # ==== Main Script Start ====
 
 suppressMessages(library(ape))
 
-# 获取命令行参数
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) < 1) {
-  stop("Using: Rscript Get_support_value.R input_tree $output_csv")
+  stop("Usage: Rscript Get_support_value.R input_tree [output_csv]")
 }
 
 input_file <- args[1]
-output_file <- ifelse(length(args) >= 2, args[2], "Support_values.csv")
+output_file <- if (length(args) >= 2) args[2] else "Support_values.csv"
 
-# 读取树
+if (!file.exists(input_file)) {
+  stop("Error: Input file '", input_file, "' not found")
+}
+
 tree <- read.tree(input_file)
 
-# 提取支持率（内部节点标签）
-supports <- tree$node.label
+n_tips <- Ntip(tree)
+node_ids <- (n_tips + 1):(n_tips + tree$Nnode)
 
-# 节点编号（内部节点编号 = Ntip+1 : Ntip+Nnode）
-node_ids <- (Ntip(tree) + 1):(Ntip(tree) + tree$Nnode)
+df <- data.frame(
+  Node = node_ids,
+  Support = tree$node.label,
+  stringsAsFactors = FALSE
+)
 
-# 组合结果
-df <- data.frame(Node = node_ids, Support = supports, stringsAsFactors = FALSE)
+df <- df[!is.na(df$Support) & df$Support != "", ]
 
-# 去掉空值/NA
-df <- df[!(is.na(df$Support) | df$Support == ""), ]
-
-# 导出到 CSV
 write.csv(df, output_file, row.names = FALSE, quote = FALSE)
+
+cat("Successfully exported", nrow(df), "support values to", output_file, "\n")
