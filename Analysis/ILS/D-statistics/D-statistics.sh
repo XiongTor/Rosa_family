@@ -5,24 +5,26 @@
 
 # ==== 主体代码开始 ====
 
-########################## get the SNPs VCF file ################################
-# install snp-site
-# you can see the website of GitHub:https://github.com/sanger-pathogens/snp-sites
-apt-get install snp-sites
+#chatgpt获得vcf文件
+cov=(0.04,0.5,0.6,0.7,0.8,0.9)
+maf=(0.01,0.05)
 
-# prepare the input files
-# the input files is the fasta file you used to build the phylogenetic tree, it shoule be a supermatrix file.
-pxcat -s ../trimal/*.fasta -p rosa_tribe_partition.txt -o rosa_tribe_supermatrix.fasta
 
-# get the SNPs VCF file
-snp-sites -mvp -o rosa_snp rosa_sp_supermatrix.fasta
+
+python ~/data/scripts/msa2vcf_biallelic.py ../rosa_MO_orthofinder_supermatrix.fasta rosa_orthofinder.vcf --min_cov 0.8 --min_maf 0.05 
 
 ########################## D-statistics calculation ##############################
-Dsuite Dtrios rosa_snp.vcf sets.txt -t rosa_Astral_species.rt.nolength.tre -o sample
+
+Dsuite Dtrios rosa_orthofinder.vcf ../sets.txt -t ../rosa_orthofinder_MO_treeshrink_sp_rt.tre -o result
+
+ruby ~/data/scripts/Dsuite/plot_d.rb result_tree.txt ../plot_order.txt 0.7 species_sets_no_geneflow_BBAA_D.svg
+
+ruby ~/data/scripts/Dsuite/plot_f4ratio.rb result_tree.txt ../plot_order.txt 0.2 species_sets_no_geneflow_BBAA_f4ratio.svg  
 
 # 计算f-branch值
-Dsuite Fbranch rosa_Astral_species.rt.nolength.tre sets_tree.txt >fbranch.out
+
+Dsuite Fbranch ../rosa_orthofinder_MO_treeshrink_sp_rt.tre result_tree.txt >fbranch.out
+  
 
 # 用dtools.py脚本绘制f-branch图
-~/data/software/Dsuite/utils/dtools.py fbranch.out rosa_Astral_species.rt.nolength.tre --outgroup Elaeagnus_pungens_hangzhou --use_distances --dpi 400 --tree-label-size 15
-
+dtools.py fbranch.out ../rosa_orthofinder_MO_treeshrink_sp_rt.tre --outgroup Zelkova_schneideriana --use_distances --dpi 500 --tree-label-size 20 
