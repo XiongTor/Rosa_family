@@ -161,6 +161,7 @@ write.csv(final_idig,file="idigbio_rosaceae_2025.2.23.csv")
 
 #################################################CVH NSII###############################################
 #下载CVH NSII数据
+# 相关脚本调用位置在：/data/xiongtao/project/nsii_dist_test
 mkdir result_nsii
 while read -r line ;do
   echo y|python RetrieveHerbarChina.py -w nsii -g $line -o result -d 0
