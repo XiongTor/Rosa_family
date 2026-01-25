@@ -19,7 +19,7 @@ sptree_list <- list(sptree)
 class(sptree_list) <- "multiPhylo"
 
 message("2. load data")
-load("quartet_analysis_results.RData") 
+load("quartet_analysis_results.RData")  
 
 #筛选出在不同限制条件下的渐渗物种和高ILS物种
 Qtest_2 <- as.data.frame(Qtest_2)
