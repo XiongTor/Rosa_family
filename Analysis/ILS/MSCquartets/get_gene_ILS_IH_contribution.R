@@ -111,8 +111,8 @@ all <- clean_data(Qtest_2)
 all<- assign_high_median_low(all,
                              cols = c("12|34","13|24","14|23"))
 
-#渐渗：
-#0.01
+# 渐渗：
+# 0.01
 IH_0.01 <- Qtest_2 %>% filter(Qtest_2$p_T3<0.01)
 IH_0.01 <- clean_data(IH_0.01)
 IH_0.01<- assign_high_median_low(IH_0.01,
