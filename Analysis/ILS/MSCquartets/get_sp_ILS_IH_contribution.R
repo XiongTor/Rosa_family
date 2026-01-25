@@ -13,7 +13,7 @@ library(viridis)
 library(reshape2)
 
 # 1. 读取数据并计算物种树种的四连体分布情况
-# orthofinder
+# orthofinder  
 # load("12-MSCquartet/orthofinder/quartet_analysis_results.RData")
 # data <- as.data.frame(Qtest_2)
 
