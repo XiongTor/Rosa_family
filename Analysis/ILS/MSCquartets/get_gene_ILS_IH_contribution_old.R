@@ -12,6 +12,7 @@ library(stringr)
 library(purrr)
 library(foreach)
 library(doParallel)
+library(reshape2)
 
 message("1. read tree.")
 sptree=read.tree("rosa_ags353_treeshrink_sp_rt_oneoutg_final.tre")

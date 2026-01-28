@@ -12,6 +12,8 @@ library(purrr)
 library(foreach)
 library(doParallel)
 library(tidyr)
+library(reshape2)
+library(ggplot2)
 
 # 0. 设置基因树的路径
 # 获取命令行参数
@@ -36,7 +38,7 @@ message(paste("Output directory:", output_dir))
 
 # 1. 读入物种树 ----------------------------------------------------------------
 message("1. read tree.")
-sptree=read.tree("rosa_ags353_treeshrink_sp_rt_oneoutg_final.tre")
+sptree=read.tree("../rosa_ags353_treeshrink_sp_rt_oneoutg_final.tre")
 sptree_list <- list(sptree)
 class(sptree_list) <- "multiPhylo"
 tnames <- taxonNames(sptree_list)
@@ -45,7 +47,7 @@ tnames <- taxonNames(sptree_list)
 # 2. 读入MSCquartet的运算结果 --------------------------------------------------
 message("2. load data")
 
-load("quartet_analysis_results.RData")
+load("../quartet_analysis_results.RData")
 
 ## 筛选出在不同限制条件下的渐渗物种和高ILS物种
 Qtest_2 <- as.data.frame(Qtest_2)
@@ -266,7 +268,18 @@ for(file in tree_files){
       tree <- read.tree(file)
       tree <- list(tree)
       class(tree) <- "multiPhylo"
-      gene_qt <- get_qt_df(tree,tnames)
+      #当前基因树存在的物种个数
+	  present_taxa <- taxonNames(tree)
+	   # 若少于4个物种则跳过
+      if (length(present_taxa) < 4) {
+        warning(paste("Tree", basename(file), "has less than 4 taxa, skipped."))
+        next
+      }
+
+	  # 关键步骤：根据物种树顺序重新排列
+      sorted_taxa <- tnames[tnames %in% present_taxa]
+	  
+      gene_qt <- get_qt_df(tree,sorted_taxa)
    
       #提取单个基因中与物种树拓扑不一致的基因
       name <- tools::file_path_sans_ext(basename(file)) %>% sub("_.*", "",.)
@@ -484,4 +497,3 @@ for(file in tree_files){
     }
   }
 }
-
