@@ -11,6 +11,7 @@ library(stringr)
 library(purrr)
 library(foreach)
 library(doParallel)
+library(tidyr)
 
 # 0. 设置基因树的路径
 # 获取命令行参数
