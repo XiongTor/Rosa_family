@@ -15,6 +15,7 @@ library(tidyr)
 library(reshape2)
 library(ggplot2)
 
+
 # 0. 设置基因树的路径
 # 获取命令行参数
 args <- commandArgs(trailingOnly = TRUE)
