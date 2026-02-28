@@ -1,4 +1,11 @@
-#R
+#!/usr/bin/env Rscript
+# Author: Tao Xiong
+# Date: 2026-02-08
+# Description: plot for quibl
+
+# ==== Main Script Start ====
+
+
 # install.packages("devtools")
 # library(devtools)
 # install_github("nbedelman/quiblR")

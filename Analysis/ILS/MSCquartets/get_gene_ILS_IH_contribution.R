@@ -15,7 +15,6 @@ library(tidyr)
 library(reshape2)
 library(ggplot2)
 
-
 # 0. 设置基因树的路径
 # 获取命令行参数
 args <- commandArgs(trailingOnly = TRUE)
@@ -39,7 +38,7 @@ message(paste("Output directory:", output_dir))
 
 # 1. 读入物种树 ----------------------------------------------------------------
 message("1. read tree.")
-sptree=read.tree("../rosa_ags353_treeshrink_sp_rt_oneoutg_final.tre")
+sptree=read.tree("../rosa_orthofinder_MO_treeshrink_sp_rt_oneoutg_final.tre")
 sptree_list <- list(sptree)
 class(sptree_list) <- "multiPhylo"
 tnames <- taxonNames(sptree_list)
@@ -51,6 +50,9 @@ message("2. load data")
 load("../quartet_analysis_results.RData")
 
 ## 筛选出在不同限制条件下的渐渗物种和高ILS物种
+# T3
+# Qtest_2 <- as.data.frame(Qtest_2)
+# T1
 Qtest_2 <- as.data.frame(Qtest_2)
 
 # 3. 自定义函数 ----------------------------------------------------------------
@@ -142,86 +144,33 @@ get_contribution <- function(df_3,IH_ILS_level){
 # 定义最终画图矩阵中的物种排列顺序
 # 定义物种顺序
 species_order <- c(
-  "Outgroup",
-  "Sibbaldia_parviflora",
-  "Sibbaldianthe_bifurca",
-  "Alchemilla_faeroensis",
-  "Comarum_palustre",
-  "Fragaria_nilgerrensis",
-  "Drymocallis_arguta",
-  "Chamaecallis_perpusilloides",
-  "Chamaerhodos_erecta",
-  "Dasiphora_fruticosa",
-  "Potaninia_mongolica",
-  "Argentina_anserina",
-  "Potentilla_acaulis",
-  "Polylepis_tarapacana",
-  "Acaena_ovalifolia",
-  "Margyricarpus_pinnatus",
-  "Sanguisorba_minor",
-  "Bencomia_exstipulata",
-  "Agrimonia_pilosa_var._pilosa",
-  "Rosa_chinensis",
-  "Coluria_longifolia",
-  "Geum_urbanum",
-  "Taihangia_rupestris",
-  "Waldsteinia_ternata",
-  "Rubus_argutus",
-  "Filipendula_ulmaria",
-  "Cercocarpus_ledifolius",
-  "Purshia_tridentata",
-  "Chamaebatia_foliolosa",
-  "Dryas_ajanensis_subsp._ajanensis",
-  "Neillia_sinensis",
-  "Physocarpus_opulifolius",
-  "Lyonothamnus_floribundus",
-  "Prunus_padus",
-  "Aruncus_dioicus",
-  "Spiraea_blumei",
-  "Prinsepia_uniflora",
-  "Exochorda_racemosa_subsp._serratifolia",
-  "Oemleria_cerasiformis",
-  "Coleogyne_ramosissima",
-  "Kerria_japonica",
-  "Rhodotypos_scandens",
-  "Sorbaria_kirilowii_var._arborea",
-  "Gillenia_trifoliata",
-  "Lindleya_mespiloides",
-  "Vauquelinia_australis",
-  "Kageneckia_oblonga",
-  "Hesperomeles_cuneata",
-  "Phippsiomeles",
-  "Dichotomanthes_tristaniicarpa",
-  "Cormus_domestica",
-  "Chamaemeles_coriacea",
-  "Cotoneaster_frigidus",
-  "Stranvaesia_nussia",
-  "Eriobotrya_japonica",
-  "Rhaphiolepis_ferruginea",
-  "Sorbus_aucuparia",
-  "Pyrus_communis",
-  "Karpatiosorbus_bristoliensis",
-  "Aria_edulis",
-  "Torminalis_glaberrima",
-  "Thomsonaria_caloneura",
-  "Griffitharia_hemsleyi",
-  "Micromeles_alnifolia",
-  "Alniaria_alnifolia",
-  "Aronia_arbutifolia",
-  "Osteomeles_schweriniae",
-  "Pseudocydonia_sinensis",
-  "Cydonia_oblonga",
-  "Chaenomeles_speciosa",
-  "Pourthiaea_amphidoxa",
-  "Pyracantha_coccinea",
-  "Photinia_prunifolia",
-  "Malacomeles_denticulata",
-  "Amelanchier_laevis",
-  "Peraphyllum_ramosissimum",
-  "Crataegus_hupehensis",
-  "Macromeles_tschonoskii",
-  "Malus_domestica",
-  "Weniomeles_bodinieri"
+  "Weniomeles_bodinieri", "Stranvaesia_nussia", "Cormus_domestica",
+  "Macromeles_tschonoskii", "Malus_domestica", "Pyrus_communis",
+  "Micromeles_alnifolia", "Alniaria_alnifolia", "Aria_edulis",
+  "Karpatiosorbus_bristoliensis", "Griffitharia_hemsleyi", "Thomsonaria_caloneura",
+  "Torminalis_glaberrima", "Aronia_arbutifolia", "Pseudocydonia_sinensis",
+  "Cydonia_oblonga", "Chaenomeles_speciosa", "Pourthiaea_amphidoxa",
+  "Osteomeles_schweriniae", "Pyracantha_coccinea", "Eriobotrya_japonica",
+  "Rhaphiolepis_ferruginea", "Sorbus_aucuparia", "Cotoneaster_frigidus",
+  "Photinia_prunifolia", "Dichotomanthes_tristaniicarpa", "Chamaemeles_coriacea",
+  "Amelanchier_laevis", "Malacomeles_denticulata", "Peraphyllum_ramosissimum",
+  "Phippsiomeles", "Crataegus_hupehensis", "Hesperomeles_cuneata",
+  "Vauquelinia_australis", "Kageneckia_oblonga", "Lindleya_mespiloides",
+  "Gillenia_trifoliata", "Prinsepia_uniflora", "Exochorda_racemosa_subsp_serratifolia",
+  "Oemleria_cerasiformis", "Coleogyne_ramosissima", "Kerria_japonica",
+  "Rhodotypos_scandens", "Sorbaria_kirilowii_var_arborea", "Lyonothamnus_floribundus",
+  "Prunus_padus", "Aruncus_dioicus", "Spiraea_blumei",
+  "Neillia_sinensis", "Physocarpus_opulifolius", "Purshia_tridentata",
+  "Chamaebatia_foliolosa", "Cercocarpus_ledifolius", "Dryas_ajanensis_subsp_ajanensis",
+  "Drymocallis_arguta", "Chamaecallis_perpusilloides", "Chamaerhodos_erecta",
+  "Dasiphora_fruticosa", "Potaninia_mongolica", "Sibbaldianthe_bifurca",
+  "Sibbaldia_parviflora", "Alchemilla_faeroensis", "Comarum_palustre",
+  "Fragaria_nilgerrensis", "Argentina_anserina", "Potentilla_acaulis",
+  "Acaena_ovalifolia", "Margyricarpus_pinnatus", "Polylepis_tarapacana",
+  "Bencomia_exstipulata", "Sanguisorba_minor", "Agrimonia_pilosa_var_pilosa",
+  "Rosa_chinensis", "Taihangia_rupestris", "Waldsteinia_ternata",
+  "Coluria_longifolia", "Geum_urbanum", "Rubus_argutus",
+  "Filipendula_ulmaria", "Outgroup"
 )
 
 # 根据不同等级的ILS/IH严苛程度，筛选数据集  --------------------------------
@@ -279,11 +228,11 @@ for(file in tree_files){
 
 	  # 关键步骤：根据物种树顺序重新排列
       sorted_taxa <- tnames[tnames %in% present_taxa]
-	  
+
       gene_qt <- get_qt_df(tree,sorted_taxa)
    
       #提取单个基因中与物种树拓扑不一致的基因
-      name <- tools::file_path_sans_ext(basename(file)) %>% sub("_.*", "",.)
+      name <- tools::file_path_sans_ext(basename(file))  %>% sub("_rt_oneoutg_final.tre", "",.) ## 注意更改基因名字
       gene_diff <- gene_qt %>% 
         filter(!gene_qt$comb_all %in% QT_sp$comb_all)
       
@@ -498,3 +447,4 @@ for(file in tree_files){
     }
   }
 }
+

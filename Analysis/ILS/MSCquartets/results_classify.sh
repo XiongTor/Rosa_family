@@ -15,19 +15,20 @@ mv *conflict_matrix* conflict_matrix
 mv *pdf plot_pdf/
 
 # 如果文件太长可以使用：
-find . -maxdepth 1 -name "*pdf*" -print0 \
-| xargs -0 mv -t plot_pdf
+find . -maxdepth 1 -name "*pairs_summary*" -print0 \
+| xargs -0 mv -t pairs_summary
 
 
 
 # 按照不同的alpha与beta组合来划分文件夹
 # 对df_num文件夹内的文件不需要进行分类，其它的文件夹下可以进行一定的分类
-alpha_list=("0.001" "1e-04" "1e-05" "1e-06")
+alpha_list=("0.01" "0.001" "1e-04" "1e-05" "1e-06")
 beta_list=("0.01" "0.05")
 data_list=("red" "yellow" "green")
 
 # 定义alpha的标准化名称（用于文件夹命名）
 declare -A alpha_names
+alpha_names["0.01"]="0.01"
 alpha_names["0.001"]="0.001"
 alpha_names["1e-04"]="0.0001"
 alpha_names["1e-05"]="0.00001"
@@ -59,3 +60,12 @@ done
 
 sed -i "1i gene,all_quartet,all_diff,blue,red,yellow,green,alpha_value,beta_value" all_df_num.csv
 
+# 若处理的是orthofinder的数据，需要把gene名从 OG0013459_1_noout_output_rt_oneoutg_final 改为 OG0013459_1
+awk -F',' 'BEGIN{OFS=","} NR==1{print; next}
+{
+  split($1, a, "_")
+  $1 = a[1] "_" a[2]
+  print
+}' all_df_num.csv > all_df_num_gene2.csv
+
+sed -i "s/\"//g" all_df_num_gene2.csv

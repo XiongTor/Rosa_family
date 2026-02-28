@@ -12,7 +12,6 @@ library(cowplot)
 library(clue) 
 library(ggplot2)
 library(plotly)
-
 #相关的因素，使用的因子  -------------------------------------------------------------------
 # No_of_taxa
 # Alignment_length
@@ -46,6 +45,7 @@ for (name in file_c) {
     strsplit(df_chloroplast[[name]]$Alignment_name,"\\."),`[`,1
   )
 }
+
 # 将list中所有的数据框按照Alignment_name列进行合并
 merged_chloroplast <- reduce(df_chloroplast, full_join, by="Alignment_name") %>% 
   select(Alignment_name,
@@ -75,6 +75,7 @@ for (name in file_ags) {
     strsplit(df_ags[[name]]$Alignment_name,"\\_"),`[`,1
   )
 }
+
 
 merged_ags353 <- reduce(df_ags, full_join, by="Alignment_name") %>% 
   select(Alignment_name,
@@ -263,9 +264,8 @@ ggsave("col.pdf", col, width = 7, height = 5)
 
 # 4.针对上述三个因素挑选高中低三个指标的基因，并计算高中低三个区间内基因树彼此之间的RF距离 ---------------------------------------------------------
 
-## 配置区域 ---
 ## 设置树的路径
-all_tree <- list.files("./tree/Chloroplast/",pattern = "\\.tre$",full.names = T)
+all_tree <- list.files("./tree/ags353_genes/",pattern = "\\.tre$",full.names = T)
 
 ## 区间模式选择
 ## "paired"     : 隔一个取一段 (1-2, 3-4, 5-6, ...)
@@ -275,13 +275,13 @@ interval_mode <- "consecutive"
 quantile_points <- c(0.0, 0.2, 0.4, 0.6, 0.8, 1)
 n_intervals=5
 # 设置每个区间的颜色
-interval_colors <- c("#4DAF4A","white", "#377EB8","white", "#E41A1C")
+interval_colors <- c("grey","#4DAF4A", "#377EB8","orange", "#E41A1C")
 
 # 设置每个区间的标签（可选）
 interval_labels <- c("Low","Low_m","Mid","Mid_h","High")
 
 ## 主程序 ---
-merged <- merged_chloroplast
+merged <- merged_ags353
 factor <- "Proportion_parsimony_informative"
 
 # 计算密度
@@ -296,10 +296,11 @@ qs <- round(
   2
 )
 
-# 动态创建区间数据和基因列表
+
 interval_data <- list()
 genes_list <- list()
 
+## 按照数值比例区间填充“interval_data”和“genes_list”
 for (i in 1:n_intervals) {
   # 根据模式确定起止索引
   if (interval_mode == "paired") {
@@ -327,6 +328,8 @@ for (i in 1:n_intervals) {
   }
 }
 
+
+
 ## 绘图：使用循环避免重复代码 ---
 # 初始化基础图层
 p1 <- ggplot(df, aes(x, y)) +
@@ -348,6 +351,8 @@ for (i in 1:n_intervals) {
       fill = interval_colors[i],
       alpha = 0.6
     )
+
+  
   
   # 添加起点和终点标签
   p1 <- p1 + 
@@ -359,11 +364,93 @@ for (i in 1:n_intervals) {
              vjust = 1.5, size = 3)
 }
 
+
 # 显示图形
 print(p1)
 
 
 ## 绘制对应的高中低的因子数值的箱线图
+
+####  判断是否运行4.1---
+# 4.1 不使用数值区间，而是按照一定的基因数量直接等距划分基因集------------------
+merged <- merged[order(merged[[factor]]), ]
+
+# 逻辑：前 n-1 组每组 base_size 个，最后一组包含剩下的所有
+group_ids <- c(
+  rep(1:(n_intervals - 1), each = base_size), # 前 n-1 组
+  rep(n_intervals, nrow(merged) - base_size * (n_intervals - 1)) # 最后一组
+)
+
+# 将 Group 转换为因子(factor)，方便绘图时按离散颜色显示
+merged$Group <- as.factor(group_ids)
+
+# 3. 添加一个 Rank 列 (1, 2, 3... N) 作为横轴
+merged$Rank <- 1:nrow(merged)
+# 计算分组的基础大小
+total_rows <- nrow(merged)
+base_size <- floor(total_rows / n_intervals)
+
+# 初始化列表
+genes_list <- vector("list", n_intervals)
+start_index <- 1
+
+# 3. 循环填充
+for(i in 1:n_intervals){
+  
+  # 确定当前组的结束位置
+  if (i < n_intervals) {
+    # 如果不是最后一组，长度为 base_size
+    end_index <- start_index + base_size - 1
+  } else {
+    # ***关键点***：如果是最后一组，结束位置直接设为数据框的总行数
+    # 这样可以保证所有剩余的行（包括余数）都进入这一组
+    end_index <- total_rows
+  }
+  
+  # 提取对应的 Alignment_name
+  genes_list[[i]] <- merged$Alignment_name[start_index:end_index]
+  
+  # 设置名称
+  # 增加 exists 判断防止 interval_labels 变量未定义报错
+  if (exists("interval_labels") && length(interval_labels) >= i) {
+    names(genes_list)[i] <- interval_labels[i]
+  } else {
+    names(genes_list)[i] <- paste0("Interval_", i)
+  }
+  # 更新下一组的起始位置
+  start_index <- end_index + 1
+}
+
+
+df_pvs <- do.call(rbind, lapply(1:n_intervals, function(i) {
+  data.frame(
+    Proportion_parsimony_informative = merged[[factor]][
+      merged[["Alignment_name"]] %in% genes_list[[i]]
+    ],
+    Group = names(genes_list)[i]
+  )
+}))
+df_pvs$Group <- factor(df_pvs$Group, levels = names(genes_list))
+df_pvs$Rank <- 1:nrow(df_pvs)
+
+
+p1 <- ggplot(df_pvs, aes(x = Rank, y = .data[[factor]], fill = Group)) +
+  # 使用柱状图展示每个基因的数值
+  geom_col(width = 0.8) + 
+  scale_fill_manual(
+    values = interval_colors
+  ) +
+  geom_vline(xintercept = seq(base_size, base_size * (n_intervals - 1), by = base_size) + 0.5, 
+             linetype = "dashed", color = "grey50") +
+  labs(
+    title = "Data Partitioning based on Parsimony Informative Sites",
+    x = "Gene",
+    y = factor
+  ) +
+  theme_minimal() +
+  theme(legend.position = "top")
+#### --------------------------------------------------------------------------
+
 df_pvs <- do.call(rbind, lapply(1:n_intervals, function(i) {
   data.frame(
     Proportion_variable_sites = merged[[factor]][
@@ -397,7 +484,7 @@ p2 <- ggplot(df_pvs, aes(x = Group, y = Proportion_variable_sites, fill = Group)
 
 ## 开始读取所有的基因树，并计算RF距离
 
-## 自定义函数
+ ## 自定义函数-------------
 pairwise_rf_onecol <- function(
     genes,
     all_tree,
@@ -420,7 +507,7 @@ pairwise_rf_onecol <- function(
     warning("Matched tree files < 2, RF not computed.")
     return(matrix(NA, ncol = 1, dimnames = list(NULL, "RF")))
   }
-  
+
   # 3. 读入树
   gene_trees <- lapply(matched_files, read.tree)
   names(gene_trees) <- sub("_.*$", "", basename(matched_files))
@@ -466,13 +553,14 @@ pairwise_rf_onecol <- function(
   return(rf_mat)
 }
 
+### -----------------------------------------------------------
 
-#正式计算
+# 正式计算
 rf_list <- list()
 rf_list <- lapply(1:n_intervals, function(i) {
   pairwise_rf_onecol(
     genes = genes_list[[i]],
-    pattern_suffix = ".",
+    pattern_suffix = "_",
     all_tree,
     min_tips = 5
   )
@@ -510,11 +598,7 @@ p3 <- ggplot(df_rf, aes(x = Group, y = RF, fill = Group)) +
     outlier.shape = NA
   ) +
   scale_fill_manual(
-    values = c(
-      Low  = low_col,
-      Mid  = mid_col,
-      High = high_col
-    )
+    values = interval_colors
   ) +
   scale_x_discrete(labels = group_labels) +
   theme_classic(base_size = 14) +
@@ -523,11 +607,19 @@ p3 <- ggplot(df_rf, aes(x = Group, y = RF, fill = Group)) +
   theme(legend.position = "none")
 
 
-pdf("Chloroplast_parsimony_rf.pdf",width = 16,height = 10)
+
+
+pdf("AGS353_parsimony_rf_equidistant.pdf",width = 12,height = 10)
 plot_grid(
   p1,
-  plot_grid(p2, p3, ncol = 1),
-  ncol = 2,
+  plot_grid(
+    p2, p3, 
+    ncol = 2, 
+    align = "h",  # 关键：水平对齐面板
+    axis = "tb",  # 关键：对齐顶部和底部坐标轴
+    rel_widths = c(1, 1)
+  ),
+  ncol = 1,
   rel_widths = c(1, 1)
 )
 dev.off()
@@ -1028,10 +1120,18 @@ df_var <- get_rf_distanch(tree_list,chloroplast,"Proportion_variable_sites")
 tree_list <- list.files("./tree/RCV/",pattern = "\\.tre$",full.names = T)
 df_RCV <- get_rf_distanch(tree_list,chloroplast,"RCV")
 
+## Mean internal branch
+tree_list <- list.files("./tree/Mean_internal_branch/",pattern = "\\.tre$",full.names = T)
+df_internal <- get_rf_distanch(tree_list,chloroplast,"Mean_internal_branch")
+
+## Mean teminal branch
+tree_list <- list.files("./tree/Mean_teminal_branch/",pattern = "\\.tre$",full.names = T)
+df_teminal <- get_rf_distanch(tree_list,chloroplast,"Mean_teminal_branch")
+
 
 
 ## 画图展示差异
-df <- bind_rows(df_random,df_GC,df_rate,df_PC1,df_parsimony,df_var,df_RCV)
+df <- bind_rows(df_random,df_GC,df_rate,df_PC1,df_parsimony,df_var,df_RCV,df_internal,df_teminal)
 df$type <- factor(
   df$type,
   levels = c(
@@ -1041,7 +1141,9 @@ df$type <- factor(
     "PC1",
     "Proportion_parsimony_informative",
     "Proportion_variable_sites",
-    "RCV"
+    "RCV",
+    "Mean_internal_branch",
+    "Mean_teminal_branch"
   )
 )
 
@@ -1061,7 +1163,9 @@ p <- ggplot(df, aes(x = type, y = rf, fill = type)) +
       "PC1" = "grey70",
       "Proportion_parsimony_informative" = "grey70",
       "Proportion_variable_sites" = "grey70",
-      "RCV" = "grey70"
+      "RCV" = "grey70",
+      "Mean_internal_branch" = "grey70",
+      "Mean_teminal_branch" = "grey70"
     )
   ) +
   theme_bw(base_size = 14) +
@@ -1162,3 +1266,7 @@ plot_ly(
       zaxis = list(title = "PC3")
     )
   )
+
+
+
+
