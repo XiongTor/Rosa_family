@@ -126,6 +126,13 @@ while read -r file;do
     i=$((i+1))
     echo $i
     name=$(basename $file _mad.tre)
-	tt=$(phykit treeness_over_rcv -a 02-trimal/${name}.fasta -t $file)
-	echo -e "${name}\t${tt}" >> Treeness_over_RCV.txt
+	tt=$(phykit sat -a 02-trimal/${name}.fasta -t 04-genetree_reroot_3outg/$file)
+	echo -e "${name}\t${tt}" >> saturation.txt
+done<mad_tree_list_for_Treeness.txt
+
+while read -r file;do
+    i=$((i+1))
+    echo $i
+    name=$(basename $file _mad.tre)
+    sed -i -E "/$name\t/d" saturation.txt
 done<mad_tree_list_for_Treeness.txt
