@@ -16,8 +16,8 @@ out_png = "merged_24grid.png"  # 输出文件名
 poppler_path = r"D:\python\poppler-25.12.0\Library\bin"
 
 TARGET_WIDTH = 3000             # 每个子图宽度（像素）
-COLS = 4
-ROWS = 6
+COLS = 2
+ROWS = 1
 GAP = 50                        # 子图间距（像素）
 BG_COLOR = (255, 255, 255)
 
