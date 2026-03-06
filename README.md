@@ -5,8 +5,7 @@
 
 This repository contains comprehensive scripts for phylogenomic analysis of the Rosaceae family, including data acquisition, phylogenetic tree construction, incongruence analysis (ILS, GTEE, IH), introgression detection, and distribution data analysis.
 
-**主要作者 (Main Author)**: Tao Xiong
-**贡献者 (Contributors)**: Miao Sun, xiongtao
+**作者 (Author)**: Tao Xiong
 
 ---
 
@@ -306,9 +305,8 @@ If you use these scripts, please cite the appropriate tools and methods used in 
 
 **Tao Xiong**
 GitHub: [@XiongTor](https://github.com/XiongTor)
+Email: 1760755795@qq.com
 
 ---
 
 *最后更新 (Last updated): 2026-03-05*
-
-111
