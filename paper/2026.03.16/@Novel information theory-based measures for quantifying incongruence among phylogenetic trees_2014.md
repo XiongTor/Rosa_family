@@ -66,10 +66,10 @@ IC只考虑主拓扑与主次要拓扑
 ICA考虑主拓扑与其它所有拓扑，但从计算的角度，一般包含占比在替代拓扑中5%以上的替代拓扑
 其中：IC 和 ICA的计算公式和函数图如下：
 $$IC = 1 + P(X_1) \log_2[P(X_1)] + P(X_2) \log_2[P(X_2)]$$
-![|475](../imag/@Novel%20information%20theory-based%20measures%20for%20quantifying%20incongruence%20among%20phylogenetic%20trees_2014/file-20260314161308147.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260314161308147.png width="60%">
 
 $$ICA = \log_n(n) + \sum_{i=1}^{n} P(X_i) \log_n[P(X_i)]$$
-![](../imag/@Novel%20information%20theory-based%20measures%20for%20quantifying%20incongruence%20among%20phylogenetic%20trees_2014/file-20260314161457213.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260314161457213.png width="60%">
 
 
 # 3.实际应用
