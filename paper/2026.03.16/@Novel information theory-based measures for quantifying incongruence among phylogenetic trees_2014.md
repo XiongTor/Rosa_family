@@ -71,6 +71,7 @@ $$IC = 1 + P(X_1) \log_2[P(X_1)] + P(X_2) \log_2[P(X_2)]$$
 
 
 $$ICA = \log_n(n) + \sum_{i=1}^{n} P(X_i) \log_n[P(X_i)]$$
+
 <img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260314161457213.png width="60%">
 
 
