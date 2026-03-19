@@ -51,7 +51,7 @@ Quartet sampling 基于==**四联体**==的方法来处理上述核心问题
 	  (Quartet Differential，四分体差异/冲突不对称性)：取值 [0, 1]。如果不支持主树的四分体，在另外两种备选拓扑中分布**不均匀**（偏斜，QD值低），通常暗示存在**基因流/杂交/渐渗**；如果分布均匀（QD值接近1），则更可能是 ILS 造成的随机噪音。
 - ### QI
      (Quartet Informativeness，四分体信息量)：取值 [0, 1]。评估这些四分体是否具有足够的系统发育信号（区分拓扑的能力），即最优拓扑的对数似然值显著高于次优拓扑的对数似然值，一般默认差值在2以上即有显著差异
-![](../imag/@Quartet%20sampling%20distinguishes%20lack%20of%20support%20from%20conflicting%20support%20in%20the%20green%20plant%20tree%20of%20life_2018/file-20260312221206513.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260312221206513.png width="60%">
 
 
 

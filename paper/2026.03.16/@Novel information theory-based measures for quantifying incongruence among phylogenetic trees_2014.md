@@ -52,7 +52,7 @@ tags: [paper, literature]
 
 相比之下，第三个二分 $C = \{a, b, c, d, g \mid e, f, h, i, j\}$，由子集 $C_1 = \{a, b, c, d, g\}$ 和 $C_2 = \{e, f, h, i, j\}$ 组成。**二分 $C$ 与二分 $A$ 冲突（或不相容）**，因为四个交集 $(A_1 \cap C_1, A_1 \cap C_2, A_2 \cap C_1, A_2 \cap C_2)$ 均不为空
 
-# 2.2 信息论与香农熵
+## 2.2 信息论与香农熵
 
 ### 香农熵：是衡量一个系统中**信息量大小**或**不确定性程度**的指标，熵越大越乱，随机性越大，信息量越大
 香农熵的计算公式如下：
@@ -65,12 +65,14 @@ $$H(X) = -\sum_{i=1}^{n} P(x_i) \log_b P(x_i)$$
 IC只考虑主拓扑与主次要拓扑
 ICA考虑主拓扑与其它所有拓扑，但从计算的角度，一般包含占比在替代拓扑中5%以上的替代拓扑
 其中：IC 和 ICA的计算公式和函数图如下：
+
 $$IC = 1 + P(X_1) \log_2[P(X_1)] + P(X_2) \log_2[P(X_2)]$$
-![|475](../imag/@Novel%20information%20theory-based%20measures%20for%20quantifying%20incongruence%20among%20phylogenetic%20trees_2014/file-20260314161308147.png)
+
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260314161308147.png width="60%">
 
 $$ICA = \log_n(n) + \sum_{i=1}^{n} P(X_i) \log_n[P(X_i)]$$
-![](../imag/@Novel%20information%20theory-based%20measures%20for%20quantifying%20incongruence%20among%20phylogenetic%20trees_2014/file-20260314161457213.png)
 
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.03.16/file-20260314161457213.png width="60%">
 
 # 3.实际应用
 
