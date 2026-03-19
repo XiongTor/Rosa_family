@@ -15,23 +15,26 @@ library("ggplot2")
 # In this example, we will compare the topology of three species trees: AGS353, orthofinder, and chloroplast.---2025.12.18
 # read tree file 
 
-ags353<- read.tree("cophylo/rosa_ags353_treeshrink_sp_rt.tre")
-ags353 <- ladderize(ags353, right = T)
+tree1 <- read.tree("cophylo/rosa_ags353_treeshrink_sp_rt.tre")
+tree1 <- ladderize(tree1, right = T)
 
-orthofinder_old <- read.tree("cophylo/rosa_orthofinder_sptree_rt.tre")
-orthofinder_old <- ladderize(orthofinder_old, right = T)
+tree2 <- read.tree("cophylo/rosa_orthofinder_sptree_rt.tre")
+tree2 <- ladderize(tree2, right = T)
 
-orthofinder <- read.tree("cophylo/rosa_orthofinder_sp_rt_new.tre")
-orthofinder <- ladderize(orthofinder, right = T)
+tree3 <- read.tree("cophylo/rosa_orthofinder_sp_rt_new.tre")
+tree3 <- ladderize(tree3, right = T)
 
-chloroplast <- read.tree("cophylo/rosa_chloroplast_sp_rt.tre")
-orthofinder <- ladderize(orthofinder, right = T)
+tree4 <- read.tree("cophylo/rosa_chloroplast_sp_rt.tre")
+tree4 <- ladderize(tree4, right = T)
+
+tree5 <- read.tree("cophylo/rosa_ags353_treeshrink_sp_rt.tre")
+tree5 <- ladderize(tree5, right = T)
 
 # read the subfamily information
 subf <- read.csv("cophylo/Rosaceae_genus_accepted_lastest.csv")
 
 # group
-tips <- as.data.frame(ags353$tip.label)
+tips <- as.data.frame(tree1$tip.label)
 colnames(tips) <- "species"
 tips$genus <- sapply(strsplit(tips$species,"_"),`[`,1)
 
@@ -49,46 +52,78 @@ group_colors <- setNames(c("#4766b0","#CB793A","#006400","#A0A5A2"), unique(grou
 link_colors <- make.transparent(group_colors[groups$Subfamilies], 0.4)
 
 # count RF and path distance
-rf_value_a_c <- RF.dist(ags353, chloroplast, check.labels = TRUE,normalize = TRUE)
-path_value_a_c <- path.dist(ags353, chloroplast, check.labels = TRUE, use.weight = FALSE)
+rf_value_12 <- RF.dist(tree1, tree2, check.labels = TRUE,normalize = TRUE)
+path_value_12 <- path.dist(tree1, tree2, check.labels = TRUE, use.weight = FALSE)
 
-rf_value_o_c <- RF.dist(orthofinder, chloroplast, check.labels = TRUE,normalize = TRUE)
-path_value_o_c <- path.dist(orthofinder, chloroplast, check.labels = TRUE, use.weight = FALSE)
+rf_value_13 <- RF.dist(tree1, tree3, check.labels = TRUE,normalize = TRUE)
+path_value_13 <- path.dist(tree1, tree3, check.labels = TRUE, use.weight = FALSE)
 
-rf_value_a_o <- RF.dist(ags353, orthofinder, check.labels = TRUE,normalize = TRUE)
-path_value_a_o <- path.dist(ags353, orthofinder, check.labels = TRUE, use.weight = FALSE)
+rf_value_14 <- RF.dist(tree1, tree4, check.labels = TRUE,normalize = TRUE)
+path_value_14 <- path.dist(tree1, tree4, check.labels = TRUE, use.weight = FALSE)
+
+rf_value_15 <- RF.dist(tree1, tree5, check.labels = TRUE,normalize = TRUE)
+path_value_15 <- path.dist(tree1, tree5, check.labels = TRUE, use.weight = FALSE)
+
+rf_value_23 <- RF.dist(tree2, tree3, check.labels = TRUE,normalize = TRUE)
+path_value_23 <- path.dist(tree2, tree3, check.labels = TRUE, use.weight = FALSE)
+
+rf_value_45 <- RF.dist(tree4, tree5, check.labels = TRUE,normalize = TRUE)
+path_value_45 <- path.dist(tree4, tree5, check.labels = TRUE, use.weight = FALSE)
+
+rf_value_24 <- RF.dist(tree2, tree4, check.labels = TRUE,normalize = TRUE)
+path_value_24 <- path.dist(tree2, tree4, check.labels = TRUE, use.weight = FALSE)
+
+rf_value_35 <- RF.dist(tree3, tree5, check.labels = TRUE,normalize = TRUE)
+path_value_35 <- path.dist(tree3, tree5, check.labels = TRUE, use.weight = FALSE)
 
 
-rf_value_o_o <- RF.dist(orthofinder_old, orthofinder, check.labels = TRUE,normalize = TRUE)
-path_value_o_o <- path.dist(orthofinder_old, orthofinder, check.labels = TRUE, use.weight = FALSE)
 # cophylo
 
-jj_a_c <- as.matrix(cbind(sort(ags353$tip.label),
-                      sort(chloroplast$tip.label)))
+jj_12 <- as.matrix(cbind(sort(tree1$tip.label),
+                      sort(tree2$tip.label)))
 
-jj_o_c <- as.matrix(cbind(sort(orthofinder$tip.label),
-                          sort(chloroplast$tip.label)))
+jj_13 <- as.matrix(cbind(sort(tree1$tip.label),
+                      sort(tree3$tip.label)))
 
-jj_a_o <- as.matrix(cbind(sort(ags353$tip.label),
-                          sort(orthofinder$tip.label)))
+jj_14 <- as.matrix(cbind(sort(tree1$tip.label),
+                      sort(tree4$tip.label)))
 
-jj_o_o <- as.matrix(cbind(sort(orthofinder_old$tip.label),
-                          sort(orthofinder$tip.label)))
+jj_15 <- as.matrix(cbind(sort(tree1$tip.label),
+                          sort(tree5$tip.label)))
 
-obj_a_c<- cophylo(ags353,chloroplast,assoc=jj_a_c,rotate=T)
+jj_23 <- as.matrix(cbind(sort(tree2$tip.label),
+                          sort(tree3$tip.label)))
 
-obj_o_c<- cophylo(orthofinder,chloroplast,assoc=jj_a_o,rotate=T)
+jj_45 <- as.matrix(cbind(sort(tree4$tip.label),
+                          sort(tree5$tip.label)))
 
-obj_a_o<- cophylo(ags353,orthofinder,assoc=jj_a_o,rotate=T)
+jj_24 <- as.matrix(cbind(sort(tree2$tip.label),
+						  sort(tree4$tip.label)))
 
-obj_o_o<- cophylo(orthofinder_old,orthofinder,assoc=jj_a_o,rotate=T)
+jj_35 <- as.matrix(cbind(sort(tree3$tip.label),
+						  sort(tree5$tip.label)))	
 
+obj_12<- cophylo(tree1,tree2,assoc=jj_12,rotate=T)
+
+obj_13<- cophylo(tree1,tree3,assoc=jj_13,rotate=T)
+
+obj_14<- cophylo(tree1,tree4,assoc=jj_14,rotate=T)
+
+obj_15<- cophylo(tree1,tree5,assoc=jj_15,rotate=T)
+
+obj_23<- cophylo(tree2,tree3,assoc=jj_23,rotate=T)
+
+obj_45<- cophylo(tree4,tree5,assoc=jj_45,rotate=T)
+
+obj_24<- cophylo(tree2,tree4,assoc=jj_24,rotate=T)
+
+obj_35<- cophylo(tree3,tree5,assoc=jj_35,rotate=T)
 
 
 pdf("cytonuclear.pdf",width = 15,height = 10)
 par(mfrow=c(1,3))  # 增加左侧边距为 8 行
 par(oma = c(2, 2, 1.5, 2))
-plot(obj_a_c,
+plot(obj_12,
      link.type = "curved",
      link.lwd = 3,
      link.lty = "solid",
@@ -96,29 +131,85 @@ plot(obj_a_c,
      fsize = 0.8)
 mtext("AGS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
 mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
-mtext(paste0("RF distance: ",rf_value_a_c), cex=1, side=1, line=-1,at=0,col="black")
-mtext(paste0("Path distance: ",path_value_a_c), cex=1, side=1, line=0.5,at=0,col="black")
+mtext(paste0("RF distance: ",rf_value_12), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_12), cex=1, side=1, line=0.5,at=0,col="black")
 
-plot(obj_o_c,
+plot(obj_13,
      link.type = "curved",
      link.lwd = 3,
      link.lty = "solid",
      link.col = link_colors,
      fsize = 0.8)
-mtext("orthofinder", cex=1.2, side=2, line=-1.6,at=0.6,col="black")
+mtext("AGS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
 mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
-mtext(paste0("RF distance: ",rf_value_o_c), cex=1, side=1, line=-1,at=0,col="black")
-mtext(paste0("Path distance: ",path_value_o_c), cex=1, side=1, line=0.5,at=0,col="black")
+mtext(paste0("RF distance: ",rf_value_13), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_13), cex=1, side=1, line=0.5,at=0,col="black")
 
-plot(obj_a_o,
+plot(obj_14,
      link.type = "curved",
      link.lwd = 3,
      link.lty = "solid",
      link.col = link_colors,
      fsize = 0.8)
-mtext("Ags353", cex=1.2, side=2, line=-1.3,at=0.6,col="black")
-mtext("orthofinder", cex=1.2, side=4, line=-0.6,at=0.6,col="black")
-mtext(paste0("RF distance: ",rf_value_a_o), cex=1, side=1, line=-1,at=0,col="black")
-mtext(paste0("Path distance: ",path_value_a_o), cex=1, side=1, line=0.5,at=0,col="black")
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_14), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_14), cex=1, side=1, line=0.5,at=0,col="black")
+
+plot(obj_15,
+     link.type = "curved",
+     link.lwd = 3,
+     link.lty = "solid",
+     link.col = link_colors,
+     fsize = 0.8)
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_15), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_15), cex=1, side=1, line=0.5,at=0,col="black")
+
+plot(obj_23,
+     link.type = "curved",
+     link.lwd = 3,
+     link.lty = "solid",
+     link.col = link_colors,
+     fsize = 0.8)
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_23), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_23), cex=1, side=1, line=0.5,at=0,col="black")
+
+plot(obj_45,
+	 link.type = "curved",
+	 link.lwd = 3,
+	 link.lty = "solid",
+	 link.col = link_colors,
+	 fsize = 0.8)
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_45), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_45), cex=1, side=1, line=0.5,at=0,col="black")
+
+plot(obj_24,
+	 link.type = "curved",
+	 link.lwd = 3,
+	 link.lty = "solid",
+	 link.col = link_colors,
+	 fsize = 0.8)
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_24), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_24), cex=1, side=1, line=0.5,at=0,col="black")
+
+plot(obj_35,
+	 link.type = "curved",
+	 link.lwd = 3,
+	 link.lty = "solid",
+	 link.col = link_colors,
+	 fsize = 0.8)
+mtext("GS353", cex=1.2, side=2, line=-0.6,at=0.6,col="black")
+mtext("Chloroplast", cex=1.2, side=4, line=-0.8,at=0.6,col="black")
+mtext(paste0("RF distance: ",rf_value_35), cex=1, side=1, line=-1,at=0,col="black")
+mtext(paste0("Path distance: ",path_value_35), cex=1, side=1, line=0.5,at=0,col="black")
+
 
 dev.off()
