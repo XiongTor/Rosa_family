@@ -33,9 +33,3 @@ for (theta in theta_levels) {
   write(genetrees, outname)
   cat("Done: theta =", theta, "\n")
 }
-
-# Date: 2025-10-30
-# Description: 
-
-# ==== Main Script Start ====
-
