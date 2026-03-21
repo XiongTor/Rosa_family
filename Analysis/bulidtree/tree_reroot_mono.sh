@@ -6,5 +6,5 @@
 
 pxrr -t rosa_sp_partition.txt.treefile -g Elaeagnus_angustifolia,Zelkova_schneideriana,Morus_indica >rosa_sp_partition.txt.rt.tre
 
-pxrlt -t rosa_sp_partition.txt.rt.tre -c old_name.txt -n new_name.txt > rosa_sp_partition.txt.rn.rt.tre
+pxrlt -t rosa_orthofinder_sortadata_connect_rebranch_rt.tre -c old_name.txt -n new_name.txt > rosa_orthofinder_sortadata_connect_rebranch_rt_rn.tre
 
