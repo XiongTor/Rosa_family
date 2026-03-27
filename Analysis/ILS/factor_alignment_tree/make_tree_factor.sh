@@ -45,8 +45,8 @@ mv treefile/*_rt.tre reroot
 
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 2 -pre {.}' ::: GC_content/Chloroplast_like/*.fasta
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 3 -pre {.}' ::: Mean_evolutionary_rate_without0/Chloroplast_like/*.fasta
-parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: Mean_internal_branch/Chloroplast_like/*.fasta
-parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: Mean_teminal_branch/Chloroplast_like/*.fasta
+parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 3 -pre {.}' ::: Mean_internal_branch/Chloroplast_like/*.fasta
+parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 2 -pre {.}' ::: Mean_teminal_branch/Chloroplast_like/*.fasta
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: PC1/Chloroplast_like/*.fasta
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: Proportion_variable_sites/Chloroplast_like/*.fasta
 parallel 'iqtree -s {} -m MFP -B 1000 --bnni -T 5 -pre {.}' ::: RCV/Chloroplast_like/*.fasta
