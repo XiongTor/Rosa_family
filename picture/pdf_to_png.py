@@ -7,13 +7,13 @@ from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
 import os, glob
 
-TARGET_WIDTH = 1200
+TARGET_WIDTH = 5000
 poppler_path = r"D:\python\poppler-25.12.0\Library\bin"
 
 out_dir = "pngs"
 os.makedirs(out_dir, exist_ok=True)   # 👈 关键这一行
 
-for pdf in glob.glob("*densitree_cladogram.pdf"):
+for pdf in glob.glob("*Boxplot_all_diff_second.pdf"):
     base = os.path.splitext(pdf)[0]
 
     reader = PdfReader(pdf)

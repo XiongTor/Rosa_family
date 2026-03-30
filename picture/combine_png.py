@@ -17,7 +17,7 @@ poppler_path = r"D:\python\poppler-25.12.0\Library\bin"
 
 TARGET_WIDTH = 3000             # 每个子图宽度（像素） (Width of each sub-image in pixels)
 COLS = 2
-ROWS = 3
+ROWS = 4
 GAP = 50                        # 子图间距（像素） (Gap between sub-images in pixels)
 BG_COLOR = (255, 255, 255)
 
