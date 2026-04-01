@@ -21,3 +21,4 @@ plot(net,
      tipcex=0.9,
      xlim=[0,30])  # 横向空间扩大
 R"dev.off()";
+
