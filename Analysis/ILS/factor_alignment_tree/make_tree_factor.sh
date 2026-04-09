@@ -13,7 +13,7 @@ for iter in $(seq 1 20); do
     echo "Processing Iteration ${iter}..."
     gene_list=$(awk -F',' -v col=$((iter)) 'NR>1 {gsub(/\r/, "", $col); print $col}' ./*_gene_genelist.csv)
     for name in ${gene_list}; do
-        cp ../02-trimal/${name}.* tmp
+        cp ../../../02-trimal/${name}.* tmp
     done
    pxcat -s tmp/*.fasta -p Iteration_${iter}_partition.txt -o Iteration_${iter}_supermatrix.fasta
    rm tmp/*

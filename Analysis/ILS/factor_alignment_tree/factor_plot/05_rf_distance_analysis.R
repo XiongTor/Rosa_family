@@ -12,9 +12,6 @@ library(cowplot)
 source("utils_functions.R")
 merged_orthofinder <- readRDS("merged_orthofinder.rds")
 
-# Set tree path
-all_tree <- list.files("./tree/orthofinder_genes/", pattern = "\\.tre$", full.names = T)
-
 # Configuration
 factor <- "Mean_internal_branch"  # Change this to analyze different factors
 interval_mode <- "paired"  # "paired" or "consecutive"
@@ -51,11 +48,13 @@ for (group_name in interval_labels) {
 rf_list <- lapply(names(genes_list), function(group_name) {
   message(paste("Calculating RF distance for:", group_name))
   pairwise_rf_onecol(
-    genes = genes_list[[group_name]],
+    genes,
+    all_tree,
+    min_tips = 4,
     pattern_suffix = "_",
-    all_tree = all_tree,
-    min_tips = 5
-  )
+    normalize = TRUE,
+    rooted = FALSE
+    )
 })
 names(rf_list) <- names(genes_list)
 
@@ -87,13 +86,13 @@ p1 <- ggplot(merged, aes(x = reorder(Alignment_name, !!sym(factor)), y = .data[[
   theme_minimal() +
   theme(legend.position = "top")
 
-p2 <- ggplot(df_pvs, aes(x = Group, y = .data[[factor]], fill = Group)) +
-  geom_violin(width = 1, alpha = 0.4, trim = TRUE) +
-  geom_boxplot(fill = "white", width = 0.2, outlier.shape = NA) +
-  scale_fill_manual(values = interval_colors) +
-  theme_classic(base_size = 14) +
-  ylab(factor) + xlab("") +
-  theme(legend.position = "none")
+# p2 <- ggplot(df_pvs, aes(x = Group, y = .data[[factor]], fill = Group)) +
+#   geom_violin(width = 1, alpha = 0.4, trim = TRUE) +
+#   geom_boxplot(fill = "white", width = 0.2, outlier.shape = NA) +
+#   scale_fill_manual(values = interval_colors) +
+#   theme_classic(base_size = 14) +
+#   ylab(factor) + xlab("") +
+#   theme(legend.position = "none")
 
 gene_n <- sapply(genes_list, length)
 group_labels <- paste0(names(gene_n), "\n(", gene_n, ")")
@@ -109,8 +108,7 @@ p3 <- ggplot(df_rf, aes(x = Group, y = RF, fill = Group)) +
   theme(legend.position = "none")
 
 pdf(paste0(factor, "_equidistants.pdf"), width = 12, height = 10)
-plot_grid(p1, plot_grid(p2, p3, ncol = 2, align = "h", axis = "tb", rel_widths = c(1, 1)),
-          ncol = 1, rel_widths = c(1, 1))
+  plot_grid(p1, p3, ncol = 1, align = "h", axis = "tb", rel_widths = c(1, 1))
 dev.off()
 
 cat("RF distance analysis completed for factor:", factor, "\n")

@@ -11,14 +11,14 @@ import os, glob
 # ================= 配置区 (Configuration Section) =================
 
 pdf_dir = "./"                  # PDF 所在目录 (PDF directory)
-out_png = "Equidistants_combined.png"  # 输出文件名 (Output filename)
+out_png = "ALL_boxplot_combined.png"  # 输出文件名 (Output filename)
 
 poppler_path = r"D:\python\poppler-25.12.0\Library\bin"
 
 TARGET_WIDTH = 3000             # 每个子图宽度（像素） (Width of each sub-image in pixels)
-COLS = 2
-ROWS = 4
-GAP = 50                        # 子图间距（像素） (Gap between sub-images in pixels)
+COLS = 1
+ROWS = 2
+GAP = 5                       # 子图间距（像素） (Gap between sub-images in pixels)
 BG_COLOR = (255, 255, 255)
 
 # =========================================
