@@ -13,7 +13,7 @@ poppler_path = r"D:\python\poppler-25.12.0\Library\bin"
 out_dir = "pngs"
 os.makedirs(out_dir, exist_ok=True)   # 👈 关键这一行
 
-for pdf in glob.glob("*Boxplot_all_diff_second.pdf"):
+for pdf in glob.glob("*distribution_in_tree_trio.pdf"):
     base = os.path.splitext(pdf)[0]
 
     reader = PdfReader(pdf)
