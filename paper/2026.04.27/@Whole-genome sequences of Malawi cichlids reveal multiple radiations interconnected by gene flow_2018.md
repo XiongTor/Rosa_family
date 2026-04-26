@@ -37,7 +37,8 @@ tags: [paper, literature]
 - 马拉维湖的马拉维湖慈鲷(*Malawi cichlids*)
 - 采集了主要谱系的73个物种，134个个体。涉及到7个主要的生态类群  
 - 使用全基因组测序数据
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260415100904143.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260415100904143.png width="60%">
+
 
 
 # 2. 文献使用的主要方法
@@ -52,7 +53,7 @@ tags: [paper, literature]
 - π值大小与种群的物种数量无相关性，说明**其新物种的可能更多受到生态位竞争或性选择的影响，而不是仅仅取决于遗传多样性的多寡**
 - π值大小分布部分时候高于dxy，说明在部分极端情况下，**单个二倍体内部的序列差异，可能要高于两个不同物种之间的差异**。这极大地证明了这些物种的分化时间非常短
 - 除了差异与多样性的比值较低外，大部分遗传变异在物种之间是共享的。平均而言，一个个体内部 82% 的杂合位点，其两个等位基因都能在其他物种中观察到，这与预期及此前观察到的高水平“不完全谱系分选”（ILS）相一致。
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260415101722852.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260415101722852.png width="60%">  
 ## 3.2 较低的每代基因突变率
 通过”家系测序“发现慈稠父代和子代之间的基因突变率仅为人类的1/3到1/4，但考虑到其1-2年一代的迭代频率，年平均突变率可能较高。综合而言，其世代突变速率并没有此前研究预计的哪些呈现一个极高的水平。说明**其物种的多样化可能并不是由于高世代突变率带来的**
 
@@ -60,8 +61,7 @@ tags: [paper, literature]
 根据其基因组变异数据（SNP），能够将马拉维湖的鱼类分为7类，与形态证据相符合。除了少数混和形态的鱼类以外。
 - **Utaka 组**，其中一些物种与深海底栖组聚类更近，另一些则与浅海底栖组更近，**显示出基因流的可能**
 - **孔雀鲷属（_Aulonocara_）** 的两个物种——_A. stuartgranti_ 和 _A. steveni_，它们位于浅海和深海底栖组之间。尽管它们像许多深海底栖物种（包括其他 _Aulonocara_ 属鱼类）一样拥有扩大的侧线感觉器官，但它们通常生活在较浅的水域。
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416153614399.png)
-
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416153614399.png width="60%">  
 ## 3.4 等位基因共享与树状关系的不一致
 根据上述结论，我们可以发现某些物种的位置十分摸棱两可，说明在基因组水平上可能处于明确定义的各个组别之间，说明不存在单一的进化树可以将这些物种联系起来
 同时使用D统计量中的$D_{min}$来进行验证，在不预先设置任何亲缘关系的前提下，计算了$D_{min}$值，发现**62% 的三物种组合**（121,485 组中的 75,616 组）具有显著的正 $D_{min}$ 得分，揭示了多个层面的网状进化
@@ -75,7 +75,7 @@ tags: [paper, literature]
 - 线粒体在ILS存在的情况下本就不足以反映正确的系统发育共识关系
 - 线粒体本身也会收到自然选择的干扰
 以此突出了使用全基因组数据的必要性
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416163204502.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416163204502.png width="60%">  
 
 ## 3.6 物种间渐渗信号的检测
 将用于构建邻接树的成对遗传距离与样本沿树枝距离进行了对比，并计算了**残差（Residuals）**。发现了诸多差异，说明系统发育树无法解释物种间可能发生的杂交渐渗：
@@ -87,13 +87,16 @@ tags: [paper, literature]
 除此之外，还计算了根据ABBA统计量的计算原理设计了Fb统计量，来查看具体是哪些物种之间发生了显著的杂交渐渗。  
 同时考虑，如果物种内存在明显的种群结构，加上物种形成事件快速连续发生，也可能导致fb值的显著升高。
 然而，在被多次物种形成事件隔开的“远缘”支系之间存在多余的等位基因共享时，祖先种群结构必须穿过这些物种形成事件进行隔离，且不影响其姐妹支系，这种情况通常是不具有说服力的。因此，认为有强有力的证据表明存在多次跨物种的基因流事件。
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416164026855.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416164026855.png width="60%"> 
 
 ## 3.7 辐射演化的起源问题
 _**A. calliptera**_ 在此前一直被认为是祖先态物种，但是全基因组显示其明确的作为岩栖组（mbuna）的姐妹群，仅有5.99%的滑动窗口树支持其作为祖先。
 且在尝试了采样其它地区的A. calliptera后，其仍能聚成一个单系群，并在去除岩栖组（mbuna）后，仍保持系统发育位置不变，说明马拉维湖的慈稠嵌套位置并非由于后期的杂交所致。
 因此推测其祖先很可能是一种在生态位和表型上与 A. calliptera 及其他 Astatotilapia 属物种相似的河流广适性鱼类。因为观察到其基因组上存在一定差异，但是在形态上存在相似性，$A. calliptera$ 嵌套在其他亲缘关系较远但生态习性相似的 _Astatotilapia_ 物种的形态空间内
-![|500](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416173542868.png)![|300](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416173558511.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416173542868.png width="60%"> 
+
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416173558511.png width="60%"> 
+
 因此作者提出了一个渐进式的三波爆发模型：
 - 远洋组（pelagic）辐射最早被播种
 - 接着是底栖组 + Utaka 组
@@ -123,7 +126,8 @@ _**A. calliptera**_ 在此前一直被认为是祖先态物种，但是全基因
 
 ##### 2） 适应性渗入(Adaptive Introgression)
 通过杂交渐渗把实现不同物种间适应性的基因交流，例如：绿光敏感视蛋白基因（RH2 cluster），其在基因组中所处的位置检测出了明显的$f_{dM}$ 峰值
-![](../imag/@Whole-genome%20sequences%20of%20Malawi%20cichlids%20reveal%20multiple%20radiations%20interconnected%20by%20gene%20flow_2018/file-20260416203007885.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260416203007885.png width="60%"> 
+
 
 ##### 3）对新突变的独立选择 (Independent Selection on De Novo Mutations)---趋同演化
 **外周蛋白-2（Peripherin-2）**和**抑制蛋白-C（Arrestin-C）**。

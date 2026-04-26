@@ -88,7 +88,8 @@ tags: [paper, literature]
 | **美洲颤杨** *`P. tremuloides`*  | 单体型 SNP 极多，Tajima's D 为显著负值，PSMC 显示急剧扩张。 | **成功扩张**：在冰期结束后经历了剧烈的种群增长，占据了广泛的生境。        |
 | **银白杨** *`P. alba`*          | PSMC 轨迹独特，约 0.05-0.07 Ma 达到峰值后持续下降。      | **独特轨迹**：其生存历史与其他杨树不同，可能受特定的地理或气候事件影响。     |
 | **高多样性组** (山杨等)              | 保持了较高水平的核苷酸多样性 ($\pi$)。                  | **稳健发展**：这些物种分布广泛，受环境波动影响相对较小，保持了丰富的遗传资源。  |
-![](../imag/@Demographic%20history%20and%20natural%20selection%20shape%20patterns%20of%20deleterious%20mutation%20load%20and%20barriers%20to%20introgression%20across%20_i_Populus__i_%20genome_2022/file-20260420152632416.png)
+
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260420152632416.png width="60%">
 
 #### 评估了有害突变负荷
 主要通过以下几点来评估：
@@ -109,7 +110,7 @@ tags: [paper, literature]
 #### （3）定位基因组上的历史渗入区域------==主要关注内容==
 1. 通过TWISST来评判全基因组中不同的滑动窗口的拓扑占比。发现占比最高的拓扑与此前的NJ树的结果一致，最后进行了ABBA分析，通过D值和f4值来观察各个物种间的杂交渐渗情况。
 2. 考虑到琼岛杨可能的克隆繁殖现象，因此后续不将其纳入考量范围内
-![|675](../imag/@Demographic%20history%20and%20natural%20selection%20shape%20patterns%20of%20deleterious%20mutation%20load%20and%20barriers%20to%20introgression%20across%20_i_Populus__i_%20genome_2022/file-20260420163430965.png)
+<img src=https://github.com/XiongTor/Rosa_family/blob/main/paper/2026.04.27/file-20260420163430965.png width="60%">
 
 3. 随后将剩下的6个物种，组成10个具有渐渗现象的trio，通过滑动窗口计算他们各自的Fdm值，其中滑动窗口大小为50个SNPs，步长为20SNPs。然后确定Fdm值的阈值，即高于多少才算是渐渗区段。首先计算全局的渐渗比例，例如为x%.则取Fdm值全X%的区域为渐渗区段。之后从多个指标评判了渐渗区段：
 - 物种间分化度和物种内分化度(DXY，FST)，发现渐渗区段拥有更低的物种间分化，受体物种内拥有更高的物种内多样性。
