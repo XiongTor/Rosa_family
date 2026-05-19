@@ -5,7 +5,7 @@
 # ==== 主体代码开始 ====
 paste old_spname.txt Subfamily_name.txt >new_subf_label.map
 
-nw_rename rosa_orthofinder_connect.txt.rt.subf.tre new_tribe_label.map >test.tre
+nw_rename Rosaceae_MY_CP.tre new_genus_label.map >genus.tre
 
 
 for tree in sptree/*.tre;do

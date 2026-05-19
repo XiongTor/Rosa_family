@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__markitdown-mcp__convert_to_markdown",
+      "WebSearch",
+      "WebFetch(domain:www.biorxiv.org)",
+      "Bash(python *)"
+    ]
+  }
+}

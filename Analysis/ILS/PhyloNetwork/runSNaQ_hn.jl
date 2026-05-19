@@ -19,10 +19,11 @@ seed = 1234 + h # change as desired! Best to have it different for different h
 @info "will run SNaQ with h=$h, # of runs=$nruns, seed=$seed, output will go to: $outputfile"
 
 using Distributed
+using SNaQ
 addprocs(nruns)
 @everywhere using PhyloNetworks
 net0_h6 = readTopology("astral.tre");  #读取起始树，为了避免并行时linux系统环境变量得区分，在h为1时设置为net0_h1
 using DataFrames, CSV
 df_sp = DataFrame(CSV.File("tableCF.csv", pool=false); copycols=false); #读取CF表
-d_sp = readTableCF!(df_sp);
-net_h1 = snaq!(net0_h6, d_sp, hmax=h, filename=outputfile, seed=seed, runs=nruns) 
+d_sp = readtableCF!(df_sp);
+net_h6 = snaq!(net0_h6, d_sp, hmax=h, filename=outputfile, seed=seed, runs=nruns) 

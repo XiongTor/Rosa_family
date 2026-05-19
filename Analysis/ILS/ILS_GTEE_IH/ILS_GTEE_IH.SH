@@ -55,18 +55,42 @@ done
 for i in $(seq 1 100); do
     out="bootstrap_${i}.tre"
     echo "生成 $out"
-    for f in ../bootstrap_100/*.ufboot; do
+    for f in ../bootstrap_100/*_rt.tre; do
         sed -n "${i}p" "$f"
     done > "$out"
 done
 
 #Build species tree for each bootstrap replicate by ASTRAL-Pro3
-for i in $(seq 1 100); do
-  echo "======== start bootstral_${i} ========"
-  astral-pro3 -i bootstrap_${i}.tre -o rosa_ags353_bootstrap_${i}_sp.tre
-  pxrr -t rosa_ags353_bootstrap_${i}_sp.tre -g Elaeagnus_angustifolia,Zelkova_schneideriana,Morus_indica>rosa_ags353_bootstrap_${i}_sp_rt.tre
-  Rscript ../script/clean_supp.R rosa_ags353_bootstrap_${i}_sp_rt.tre rosa_ags353_bootstrap_${i}_sp_rt_nosupp.tre
-done
+seq 1 100 | parallel -j10 '
+  echo "======== start bootstral_{} ========"
+  astral-pro3 -i bootstrap_{}.tre -o rosa_orthofinder_bootstrap_{}_sp.tre
+  pxrr -t rosa_orthofinder_bootstrap_{}_sp.tre -g Elaeagnus_angustifolia,Zelkova_schneideriana,Morus_indica > rosa_orthofinder_bootstrap_{}_sp_rt.tre
+  Rscript ../script/clean_supp.R rosa_orthofinder_bootstrap_{}_sp_rt.tre rosa_orthofinder_bootstrap_{}_sp_rt_nosupp.tre
+'
+# remain only one outgroup
+for name in ./*_rt.tre;do
+  tt=$(basename $name .tre);   
+  z=$(nw_labels -I $name|grep -c "Zelkova_schneideriana");   
+  e=$(nw_labels -I $name|grep -c "Elaeagnus_angustifolia");   
+  m=$(nw_labels -I $name|grep -c "Morus_indica");   
+  if [[ $z -eq 1 ]];then     
+    rm=$(nw_labels -I "$name" | grep -E "Elaeagnus_angustifolia|Morus_indica" | paste -sd "," -);     
+    echo $name "z";     
+    pxrmt -t $name -n $rm>./$tt;     
+    pxrlt -t ./$tt -c ../old_z.txt -n ../new.txt >./${tt}_oneoutgroup.tre;   
+  elif [[ $e -eq 1 ]];then     
+    pxrmt -t $name -n Morus_indica>./$tt;     
+    echo $name "e";     
+    pxrlt -t ./$tt -c ../old_e.txt -n ../new.txt >./${tt}_oneoutgroup.tre;   
+  else     
+    echo $name "m";     
+    pxrlt -t $name -c ../old_m.txt -n ../new.txt >./${tt}_oneoutgroup.tre;   
+  fi; 
+ done
+
+ # old_m.txt:Morus_indica
+ # new.txt : Outgroup
+
 
 ## And you should cat all genetrees into one file, and so does the bootstrap trees
 cat gene_trees/*.genetrees > rosa_gene_trees.tre
@@ -77,8 +101,18 @@ cat gene_trees/*.genetrees > rosa_gene_trees.tre
 # variations in the resulting simulated gene trees will reflect estimation error, ILS, and missing data in the empirical data set
 
 mkdir geneTr_sim
-Rscript --vanilla /data/xiongtao/tree/ILS/gene_flow/gene_flow_analy/script/MSC_geneTr_simulator.R $speciesTr $speciesTr_BP $geneTr
+Rscript --vanilla ../script/MSC_geneTr_simulator.R $speciesTr $speciesTr_BP $geneTr
 rm geneTr_sim/*.tem.genetrees
+
+# reroot
+for n in $(seq 1 100);do
+  echo "======== BP${n}.sim.genetrees ========"
+  for i in $(seq 1 2063); do
+    sed -n "${i}p" BP${n}.sim.genetrees>test.tre
+    pxrr -t test.tre -g Outgroup > test_rt.tre
+    cat test_rt.tre>>BP${n}.sim_rt.genetrees
+  done
+done  
 #excepted result: sets of simulated gene trees in the folder geneTr_sim
 
 
@@ -86,15 +120,15 @@ rm geneTr_sim/*.tem.genetrees
 # This can take hours if there are >30 species, so it is strongly advised to distribute the work to the cluster. For example, submit a job to count triplet frequency for one set of gene trees.
 
 # For empirical gene trees
-python /data/xiongtao/tree/ILS/gene_flow/gene_flow_analy/script/triple_frequency_counter.py $geneTr $speciesTr
+python ./script/triple_frequency_counter.py $geneTr $speciesTr
 #excepted result: *.trp.tsv
 #format: column1--species names of the triplet, sorted alphabetically; column2--triplet frequencies of (sp1,sp2);column3--triplet frequencies of (sp1,sp3);column4--triplet frequencies of (sp2,sp3).
 
 # For simulated gene trees
 # If the server hace enough cpu source, you can use parallel to speed up the process.
 # !!!! Note, do not use the "./BP.sim.genetrees" as the input, remove the "./", just use "BP.sim.genetrees" is ok. !!!!
-cat geneTr_sim/*.sim.genetrees>BP_sim.genetrees.txt
-cat BP_sim.genetrees.txt |parallel -j 30 'python ./script/triple_frequency_counter.py {} rosa_Astral_species_rt.tre'
+ls ./*_rt.genetrees | xargs -I{} echo "../geneTr_sim/{}" > BP_sim.rt.genetrees.txt
+cat BP_sim.rt.genetrees.txt |parallel -j 30 'python ../script/triple_frequency_counter.py {} ../rosa_orthofinder_MO_treeshrink_sp_rt_oneoutg_final.tre'
 
 # Find significantly unbalanced triplets and map to species tree
 # !!! The GitHub orgin script is wrong, the input file should be the genetrees,not the species tree. You can check the `find_unbalanced_triplets.py`
@@ -109,7 +143,7 @@ python /data/xiongtao/tree/ILS/gene_flow/gene_flow_analy/script/triplet_mapper.p
 
 ############################### 3. calculate the relative contributions of ILS, GTEE, and IH ######
 ###  claculate the gene tree variation
-iqtree -t rosa_ags353_treeshrink_sp_rt_nosupp_nozero_oneoutg_final.tre --gcf BSgenetree.trees --prefix concord
+iqtree -t rosa_orthofinder_treeshrink_sp_rt_nosupp_nozero_oneoutg_final.tre --gcf BSgenetree.trees --prefix concord
 #BSgenetree.trees is the bootstrap gene trees
 #Final result:
 concord.cf.stat
@@ -118,7 +152,7 @@ concord.cf.stat
 ###   GTEE 
 # use the simulated gene trees to estimate the GTEE error
 #The input sp tree should be the species tree without support values
-seq-gen -mGTR -l500 -n317 -a 0.5 -g 4 -z $RANDOM < rosa_ags353_treeshrink_sp_rt_nosupp_nozero_oneoutg_final.tre > simulate_tree.fa  
+seq-gen -mGTR -l500 -n317 -a 0.5 -g 4 -z $RANDOM < rosa_orthofinder_treeshrink_sp_rt_nosupp_nozero_oneoutg_final.tre > simulate_tree.fa  
 
 # separate the simulate seqs into 20 files,becaues we have 20 tips
 # you can use the mean /median length of your real seqs to set the length of simulate seqs
